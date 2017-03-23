@@ -1,0 +1,3 @@
+EmitQuotationIntent nach einem Zitat
+EmitQuotationIntent nach einem Spruch
+EmitQuotationIntent gib mir ein Zitat

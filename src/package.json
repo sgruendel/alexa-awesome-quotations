@@ -1,0 +1,27 @@
+{
+  "name": "awesome-quotations",
+  "version": "1.0.0",
+  "description": "Alexa Skill for awesome quotations",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgruendel/alexa-schoene-sprueche.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "invoke": "aws lambda invoke --function-name 'awesomeQuotations' --payload fileb://../tests/events/alexa-start-session.json ../tests/out.txt && cat ../tests/out.txt",
+    "test": "mocha",
+    "deploy": "npm prune --production && npm run zip && npm run upload",
+    "upload": "aws lambda update-function-code --function-name 'awesomeQuotations' --zip-file fileb://../index.zip",
+    "zip": "zip -r ../index.zip . -x 'package.json' 'test/*' '*.git*' '*~'"
+  },
+  "author": "Stefan Gründel",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "alexa-sdk": "^1.0.7"
+  },
+  "devDependencies": {
+    "aws-lambda-mock-context": "^3.0.1",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}
