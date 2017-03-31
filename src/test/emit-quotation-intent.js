@@ -26,12 +26,12 @@ describe('Testing a session with the EmitQuotationIntent', () => {
             "request": {
                 "type": "IntentRequest",
                 "requestId": "amzn1.echo-api.request.[unique-value-here]",
+                "locale": "de-DE",
                 "timestamp": "2016-07-05T22:02:01Z",
                 "intent": {
                     "name": "EmitQuotationIntent",
                     "slots": {}
-                },
-                "locale": "en-US"
+                }
             },
             "version": "1.0"
         }, ctx)
@@ -41,7 +41,7 @@ describe('Testing a session with the EmitQuotationIntent', () => {
             .catch(err => { speechError = err; done(); })
     })
     
-    describe('The response is structurally correct for Alexa Speech Services', () => {
+    describe('The response', () => {
         it('should not have errored', () => {
             expect(speechError).to.be.null
         })
@@ -61,12 +61,6 @@ describe('Testing a session with the EmitQuotationIntent', () => {
         it('should have a card response', () => {
             expect(speechResponse.response.card).to.exist
         })
-
-        /*
-        it('should have session attributes', () => {
-            expect(speechResponse.response.sessionAttributes).to.exist
-        })
-        */
 
         it('should end the alexa session', () => {
             expect(speechResponse.response.shouldEndSession).to.be.true
