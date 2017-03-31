@@ -1,3 +1,13 @@
+EmitQuotationIntent gib mir ein Zitat
+EmitQuotationIntent gib mir irgendein Zitat
+EmitQuotationIntent gib mir ein Zitat von {Author}
+EmitQuotationIntent gib mir ein Zitat vom {Author}
 EmitQuotationIntent nach einem Zitat
 EmitQuotationIntent nach einem Spruch
-EmitQuotationIntent gib mir ein Zitat
+EmitQuotationIntent nach einem Zitat von {Author}
+EmitQuotationIntent nach einem Zitat vom {Author}
+EmitQuotationIntent nach einem Spruch von {Author}
+EmitQuotationIntent nach einem Spruch vom {Author}
+EmitQuotationIntent nach etwas von {Author}
+EmitQuotationIntent nach etwas vom {Author}
+EmitQuotationIntent nach {Author}

@@ -1,6 +1,12 @@
 {
   "intents": [
     {
+      "slots": [
+        {
+          "name": "Author",
+          "type": "LIST_OF_AUTHORS"
+        }
+      ],
       "intent": "EmitQuotationIntent"
     },
     {
