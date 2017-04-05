@@ -1,13 +1,17 @@
 {
   "intents": [
     {
+      "intent": "RandomQuoteIntent",
+      "slots": []
+    },
+    {
+      "intent": "AuthorQuoteIntent",
       "slots": [
         {
           "name": "Author",
           "type": "LIST_OF_AUTHORS"
         }
-      ],
-      "intent": "EmitQuotationIntent"
+      ]
     },
     {
       "intent": "AMAZON.HelpIntent"

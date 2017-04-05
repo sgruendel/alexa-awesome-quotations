@@ -6,7 +6,7 @@ var index = require('../index');
 const context = require('aws-lambda-mock-context');
 const ctx = context();
 
-describe('Testing a session with the EmitQuotationIntent:', () => {
+describe('Testing a session with the AuthorQuoteIntent:', () => {
     var speechResponse = null
     var speechError = null
     
@@ -29,11 +29,11 @@ describe('Testing a session with the EmitQuotationIntent:', () => {
                 "locale": "de-DE",
                 "timestamp": "2017-03-31T15:49:08Z",
                 "intent": {
-                    "name": "EmitQuotationIntent",
+                    "name": "AuthorQuoteIntent",
                     "slots": {
                         "Author": {
                             "name": "Author",
-                            "value": "jean paul sartre"
+                            "value": "martin luther"
                         }
                     }
                 }
@@ -67,8 +67,8 @@ describe('Testing a session with the EmitQuotationIntent:', () => {
             expect(speechResponse.response.card).to.exist
         })
 
-        it('should have a card title for Jean-Paul Sartre', () => {
-            expect(speechResponse.response.card.title).to.equal('Jean-Paul Sartre')
+        it('should have a card title for Martin Luther', () => {
+            expect(speechResponse.response.card.title).to.equal('Martin Luther')
         })
 
         it('should end the alexa session', () => {

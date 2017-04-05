@@ -6,14 +6,14 @@ var index = require('../index');
 const context = require('aws-lambda-mock-context');
 const ctx = context();
 
-describe('Testing a session with the EmitQuotationIntent:', () => {
+describe('Testing a session with the RandomQuoteIntent', () => {
     var speechResponse = null
     var speechError = null
     
     before(function(done) {
         index.handler( {
             "session": {
-                "sessionId": "SessionId.8d5db35e-a9e1-464c-aee2-264552ce6a4e",
+                "sessionId": "SessionId.154291c5-a13f-4e7a-ab5a-2342534adfeba",
                 "application": {
                     "applicationId": "amzn1.ask.skill.0b9d09d1-e37f-4753-8e50-e8adbfd6aeeb"
                 },
@@ -25,17 +25,12 @@ describe('Testing a session with the EmitQuotationIntent:', () => {
             },
             "request": {
                 "type": "IntentRequest",
-                "requestId": "EdwRequestId.a0821d38-f684-4327-be74-035f3a4fdf59",
+                "requestId": "amzn1.echo-api.request.[unique-value-here]",
                 "locale": "de-DE",
-                "timestamp": "2017-03-31T15:49:08Z",
+                "timestamp": "2016-07-05T22:02:01Z",
                 "intent": {
-                    "name": "EmitQuotationIntent",
-                    "slots": {
-                        "Author": {
-                            "name": "Author",
-                            "value": "martin luther"
-                        }
-                    }
+                    "name": "RandomQuoteIntent",
+                    "slots": {}
                 }
             },
             "version": "1.0"
@@ -65,10 +60,6 @@ describe('Testing a session with the EmitQuotationIntent:', () => {
 
         it('should have a card response', () => {
             expect(speechResponse.response.card).to.exist
-        })
-
-        it('should have a card title for Martin Luther', () => {
-            expect(speechResponse.response.card.title).to.equal('Martin Luther')
         })
 
         it('should end the alexa session', () => {

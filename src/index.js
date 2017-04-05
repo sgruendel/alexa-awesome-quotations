@@ -28,7 +28,8 @@ const languageStrings = {
     'en': {
         translation: {
             CARD_TITLE: 'Awesome Quotations',
-            QUOTE_MESSAGE: 'Here\'s your quote from ',
+            RANDOM_QUOTE_MESSAGE: 'Here\'s a quote from ',
+            AUTHOR_QUOTE_MESSAGE: 'Here\'s your quote from ',
             HELP_MESSAGE: 'You can say "Give me a quote", or you can say "Exit". How can I help you?',
             HELP_REPROMPT: 'How can I help you?',
             STOP_MESSAGE: 'Goodbye!',
@@ -39,7 +40,8 @@ const languageStrings = {
         translation: {
             AUTHOR_NOT_FOUND: 'Ich kenne den Autor nicht. ',
             CARD_TITLE: 'Schöne Sprüche',
-            QUOTE_MESSAGE: 'Hier ist dein Zitat von ',
+            RANDOM_QUOTE_MESSAGE: 'Hier ist ein Zitat von ',
+            AUTHOR_QUOTE_MESSAGE: 'Hier ist dein Zitat von ',
             HELP_MESSAGE: 'Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Gib mir ein Zitat von {author}“, oder du kannst „Beenden“ sagen. Was soll ich tun?',
             HELP_REPROMPT: 'Was soll ich tun?',
             STOP_MESSAGE: 'Bis bald!',
@@ -51,13 +53,17 @@ const handlers = {
     'LaunchRequest': function () {
         this.emit('AMAZON.HelpIntent');
     },
-    'EmitQuotationIntent': function () {
-        this.emit('EmitQuotation');
+    'RandomQuoteIntent': function () {
+        const i = Math.floor(Math.random() * quotes.length);
+        const quotedAuthor = authors[i];
+        console.log('using random author', quotedAuthor);
+        const randomQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
+        const speechOutput = this.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + randomQuote;
+        this.emit(':tellWithCard', speechOutput, quotedAuthor, randomQuote);
     },
-    'EmitQuotation': function () {
+    'AuthorQuoteIntent': function () {
         const authorSlot = this.event.request.intent.slots.Author;
-        var randomQuote;
-        var quotedAuthor;
+        var quotedAuthor, authorQuote;
         if (authorSlot && authorSlot.value) {
             const author = authorSlot.value.toLowerCase();
             
@@ -66,40 +72,38 @@ const handlers = {
                 if (authorsNormalized[i] == author) {
                     console.log('found exact match', authors[i], 'with', quotes[i].length, 'quotes');
                     quotedAuthor = authors[i];
-                    randomQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
+                    authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
                 }
             }
-            if (!randomQuote) {
+            if (!authorQuote) {
                 for (var i = 0; i < authors.length; i++) {
                     if (authorsNormalized[i].includes(author)) {
                         console.log('found partial match', authors[i], 'with', quotes[i].length, 'quotes');
                         quotedAuthor = authors[i];
-                        randomQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
+                        authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
                     }
                 }
             }
-            if (!randomQuote) {
+            if (!quotedAuthor) {
                 console.log('author not found');
             }
         } else {
             console.error('No slot value given for author');
         }
 
-        var prependSpeechOutput;
-        if (!randomQuote) {
+        // Create speech output
+        var speechOutput;
+        if (quotedAuthor) {
+            speechOutput = this.t('AUTHOR_QUOTE_MESSAGE') + quotedAuthor + ': ' + authorQuote;
+        } else {
             const i = Math.floor(Math.random() * quotes.length);
             quotedAuthor = authors[i];
             console.log('using random author', quotedAuthor);
-            randomQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
-            prependSpeechOutput = this.t('AUTHOR_NOT_FOUND');
+            authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
+            speechOutput = this.t('AUTHOR_NOT_FOUND') + this.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + authorQuote;
         }
 
-        // Create speech output
-        var speechOutput = this.t('QUOTE_MESSAGE') + quotedAuthor + ': ' + randomQuote;
-        if (prependSpeechOutput) {
-            speechOutput = prependSpeechOutput + speechOutput;
-        }
-        this.emit(':tellWithCard', speechOutput, quotedAuthor, randomQuote);
+        this.emit(':tellWithCard', speechOutput, quotedAuthor, authorQuote);
     },
     'AMAZON.HelpIntent': function () {
         const i = Math.floor(Math.random() * authors.length);
