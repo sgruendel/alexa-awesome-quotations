@@ -74,6 +74,7 @@ function quotesForAuthor(i, href, page, callback) {
     request.on('response', response => {
         if (response.statusCode == 404) {
             // page not found
+            callback(null); // notify caller we're done
             return;
         } else if (response.statusCode < 200 || response.statusCode > 299) {
             throw(new Error(response.statusMessage));
@@ -116,7 +117,6 @@ const Z = 90;
 var authorNames = [];
 var authors = [];
 var letterCount = 0;
-var totalQuoteCount = 0;
 for (var c = A; c <= Z; c++) {
     authorsWithLetter(String.fromCharCode(c), authorsForC => {
         for (var i = 0; i < authorsForC.length; i++) {
@@ -125,7 +125,6 @@ for (var c = A; c <= Z; c++) {
                 if (!UNWANTED_AUTHORS.includes(authorName)) {
                     authorNames.push(authorName);
                     authors.push(authorsForC[i]);
-                    totalQuoteCount += authorsForC[i].noOfQuotes;
                     // console.log(authorsForC[i].name, authorsForC[i].href);
                 }
             }
@@ -135,7 +134,7 @@ for (var c = A; c <= Z; c++) {
         if (letterCount > Z-A) {
             authorNames.sort();
             //console.log(authorNames);
-            var stream = fs.createWriteStream('authors.json');
+            var stream = fs.createWriteStream('authors_de.json');
             stream.write(JSON.stringify(authorNames, null, 2));
             stream.end();
 
@@ -144,24 +143,25 @@ for (var c = A; c <= Z; c++) {
                 // initialize quotes for author with empty array, so each page with quotes can be pushed below
                 quotes[i] = [];
             }
-            var quoteCount = 0;
             for (var i = 0; i < authorNames.length; i++) {
                 const author = authors[i];
                 quotesForAuthor(authors[i].name, authors[i].href, 1, (authorName, quotesForA) => {
-                    console.log('Parsing quotes for', authorName);
-                    var index = 0;
-                    while (authorName != authorNames[index]) {
-                        index++;
-                    }
-                    for (var j = 0; j < quotesForA.length; j++) {
-                        quotes[index].push(quotesForA[j]);
-                        quoteCount++;
-                    }
-                    console.log(quoteCount, totalQuoteCount);
-                    if (quoteCount == totalQuoteCount) {
-                        stream = fs.createWriteStream('quotes.json');
-                        stream.write(JSON.stringify(quotes, null, 2));
-                        stream.end();
+                    if (quotesForA) {
+                        console.log('Parsing quotes for', authorName);
+                        var index = 0;
+                        while (authorName != authorNames[index]) {
+                            index++;
+                        }
+                        for (var j = 0; j < quotesForA.length; j++) {
+                            quotes[index].push(quotesForA[j]);
+                        }
+                    } else {
+                        // last page reached for this author
+                        if (i == authorNames.length) {
+                            stream = fs.createWriteStream('quotes_de.json');
+                            stream.write(JSON.stringify(quotes, null, 2));
+                            stream.end();
+                        }
                     }
                 });
             }

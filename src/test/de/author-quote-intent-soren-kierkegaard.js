@@ -1,7 +1,7 @@
 'use strict';
 
 var expect = require('chai').expect;
-var index = require('../index');
+var index = require('../../index');
 
 const context = require('aws-lambda-mock-context');
 const ctx = context();
@@ -33,7 +33,7 @@ describe('Testing a session with the AuthorQuoteIntent:', () => {
                     "slots": {
                         "Author": {
                             "name": "Author",
-                            "value": "lincoln"
+                            "value": "soren kierkegaard"
                         }
                     }
                 }
@@ -67,8 +67,8 @@ describe('Testing a session with the AuthorQuoteIntent:', () => {
             expect(speechResponse.response.card).to.exist
         })
 
-        it('should have a card title for Abraham Lincoln', () => {
-            expect(speechResponse.response.card.title).to.equal('Abraham Lincoln')
+        it('should have a card title for Martin Luther', () => {
+            expect(speechResponse.response.card.title).to.equal('Søren Kierkegaard')
         })
 
         it('should end the alexa session', () => {

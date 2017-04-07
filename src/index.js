@@ -13,38 +13,51 @@
 const Alexa = require('alexa-sdk');
 
 const APP_ID = 'amzn1.ask.skill.0b9d09d1-e37f-4753-8e50-e8adbfd6aeeb';
-const authors = require('./authors.json');
-const quotes = require('./quotes.json');
+const authors_de = require('./authors_de.json');
+const authors_en = require('./authors_en.json');
+const quotes_de = require('./quotes_de.json');
+const quotes_en = require('./quotes_en.json');
 
-const authorsNormalized = authors.map(author => {
+const authorsNormalized_de = authors_de.map(author => {
     return author.toLocaleLowerCase().replace('-', ' ')
         .replace('prof. dr. ', 'professor doktor ')
         .replace('ø', 'o');
     // normalize to lower case, replacing '-' with space, replacing full title with abbreviation
     // ø => o for Søren Kierkegaard
 });
+const authorsNormalized_en = authors_en.map(author => {
+    return author.toLocaleLowerCase().replace('-', ' ');
+    // normalize to lower case, replacing '-' with space
+});
 
 const languageStrings = {
-    'en': {
-        translation: {
-            CARD_TITLE: 'Awesome Quotations',
-            RANDOM_QUOTE_MESSAGE: 'Here\'s a quote from ',
-            AUTHOR_QUOTE_MESSAGE: 'Here\'s your quote from ',
-            HELP_MESSAGE: 'You can say "Give me a quote", or you can say "Exit". How can I help you?',
-            HELP_REPROMPT: 'How can I help you?',
-            STOP_MESSAGE: 'Goodbye!',
+    "en": {
+        "translation": {
+            "AUTHORS": authors_en,
+            "AUTHORS_NORMALIZED": authorsNormalized_en,
+            "QUOTES": quotes_en,
+            "AUTHOR_NOT_FOUND": "I don't know the author. ",
+            "CARD_TITLE": "Awesome Quotations",
+            "RANDOM_QUOTE_MESSAGE": "Here's a quote from ",
+            "AUTHOR_QUOTE_MESSAGE": "Here's your quote from ",
+            "HELP_MESSAGE": "You can say 'Give me a quote', or you can say 'Give me a quote by {author}', or you can say 'Exit'. How can I help you?",
+            "HELP_REPROMPT": "How can I help you?",
+            "STOP_MESSAGE": "Goodbye!",
         },
     },
         
-    'de': {
-        translation: {
-            AUTHOR_NOT_FOUND: 'Ich kenne den Autor nicht. ',
-            CARD_TITLE: 'Schöne Sprüche',
-            RANDOM_QUOTE_MESSAGE: 'Hier ist ein Zitat von ',
-            AUTHOR_QUOTE_MESSAGE: 'Hier ist dein Zitat von ',
-            HELP_MESSAGE: 'Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Gib mir ein Zitat von {author}“, oder du kannst „Beenden“ sagen. Was soll ich tun?',
-            HELP_REPROMPT: 'Was soll ich tun?',
-            STOP_MESSAGE: 'Bis bald!',
+    "de": {
+        "translation": {
+            "AUTHORS": authors_de,
+            "AUTHORS_NORMALIZED": authorsNormalized_de,
+            "QUOTES": quotes_de,
+            "AUTHOR_NOT_FOUND": "Ich kenne den Autor nicht. ",
+            "CARD_TITLE": "Schöne Sprüche",
+            "RANDOM_QUOTE_MESSAGE": "Hier ist ein Zitat von ",
+            "AUTHOR_QUOTE_MESSAGE": "Hier ist dein Zitat von ",
+            "HELP_MESSAGE": "Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Gib mir ein Zitat von {author}“, oder du kannst „Beenden“ sagen. Was soll ich tun?",
+            "HELP_REPROMPT": "Was soll ich tun?",
+            "STOP_MESSAGE": "Bis bald!",
         },
     },
 };
@@ -54,6 +67,8 @@ const handlers = {
         this.emit('AMAZON.HelpIntent');
     },
     'RandomQuoteIntent': function () {
+        const authors = this.t('AUTHORS');
+        const quotes = this.t('QUOTES');
         const i = Math.floor(Math.random() * quotes.length);
         const quotedAuthor = authors[i];
         console.log('using random author', quotedAuthor);
@@ -62,6 +77,10 @@ const handlers = {
         this.emit(':tellWithCard', speechOutput, quotedAuthor, randomQuote);
     },
     'AuthorQuoteIntent': function () {
+        const authors = this.t('AUTHORS');
+        const authorsNormalized = this.t('AUTHORS_NORMALIZED');
+        const quotes = this.t('QUOTES');
+
         const authorSlot = this.event.request.intent.slots.Author;
         var quotedAuthor, authorQuote;
         if (authorSlot && authorSlot.value) {
