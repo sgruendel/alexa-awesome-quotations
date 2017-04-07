@@ -1,0 +1,13 @@
+RandomQuoteIntent for a quote
+RandomQuoteIntent for any quote
+RandomQuoteIntent to give me a quote
+AuthorQuoteIntent give me a quote by {Author}
+AuthorQuoteIntent give me a quote from {Author}
+AuthorQuoteIntent for a quote by {Author}
+AuthorQuoteIntent for a quote from {Author}
+AuthorQuoteIntent for something by {Author}
+AuthorQuoteIntent for something from {Author}
+AuthorQuoteIntent to tell me a quote by {Author}
+AuthorQuoteIntent to tell me a quote from {Author}
+AuthorQuoteIntent to quote {Author}
+AuthorQuoteIntent for {Author}
