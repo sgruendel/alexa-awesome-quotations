@@ -11,3 +11,4 @@ AuthorQuoteIntent nach einem Spruch vom {Author}
 AuthorQuoteIntent nach etwas von {Author}
 AuthorQuoteIntent nach etwas vom {Author}
 AuthorQuoteIntent nach {Author}
+AuthorQuoteIntent zitiere {Author}
