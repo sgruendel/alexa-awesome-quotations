@@ -26,8 +26,19 @@ const authorsNormalized_de = authors_de.map(author => {
     // ø => o for Søren Kierkegaard
 });
 const authorsNormalized_en = authors_en.map(author => {
-    return author.toLocaleLowerCase().replace('-', ' ');
+    var normalized = author.toLocaleLowerCase().replace('-', ' ')
+        .replace('dr. ', 'doctor ').replace(', jr.', ' junior').replace(' ii', ' 2');
     // normalize to lower case, replacing '-' with space
+    // replacing full title with abbreviation, "Pope John Paul II" => "2"
+    const re = /^([a-z]\. )+/;
+    const result = re.exec(normalized);
+    if (result) {
+        // C. S. Lewis => cs lewis
+        // A. P. J. Abdul Kalam => apj abdul kalam
+        const initials = result[0].replace(/\. /g, '');
+        normalized = initials + normalized.slice(result[0].length - 1);
+    }
+    return normalized;
 });
 
 const languageStrings = {
@@ -37,10 +48,9 @@ const languageStrings = {
             "AUTHORS_NORMALIZED": authorsNormalized_en,
             "QUOTES": quotes_en,
             "AUTHOR_NOT_FOUND": "I don't know the author. ",
-            "CARD_TITLE": "Awesome Quotations",
-            "RANDOM_QUOTE_MESSAGE": "Here's a quote from ",
-            "AUTHOR_QUOTE_MESSAGE": "Here's your quote from ",
-            "HELP_MESSAGE": "You can say 'Give me a quote', or you can say 'Give me a quote by {author}', or you can say 'Exit'. How can I help you?",
+            "RANDOM_QUOTE_MESSAGE": "Here's a quotation from ",
+            "AUTHOR_QUOTE_MESSAGE": "Here's your quotation from ",
+            "HELP_MESSAGE": "You can say 'Give me a quotation', or you can say 'Quote {author}', or you can say 'Exit'. How can I help you?",
             "HELP_REPROMPT": "How can I help you?",
             "STOP_MESSAGE": "Goodbye!",
         },
@@ -52,10 +62,9 @@ const languageStrings = {
             "AUTHORS_NORMALIZED": authorsNormalized_de,
             "QUOTES": quotes_de,
             "AUTHOR_NOT_FOUND": "Ich kenne den Autor nicht. ",
-            "CARD_TITLE": "Schöne Sprüche",
             "RANDOM_QUOTE_MESSAGE": "Hier ist ein Zitat von ",
             "AUTHOR_QUOTE_MESSAGE": "Hier ist dein Zitat von ",
-            "HELP_MESSAGE": "Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Gib mir ein Zitat von {author}“, oder du kannst „Beenden“ sagen. Was soll ich tun?",
+            "HELP_MESSAGE": "Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Zitiere {author}“, oder du kannst „Beenden“ sagen. Was soll ich tun?",
             "HELP_REPROMPT": "Was soll ich tun?",
             "STOP_MESSAGE": "Bis bald!",
         },
@@ -125,6 +134,7 @@ const handlers = {
         this.emit(':tellWithCard', speechOutput, quotedAuthor, authorQuote);
     },
     'AMAZON.HelpIntent': function () {
+        const authors = this.t('AUTHORS');
         const i = Math.floor(Math.random() * authors.length);
         const speechOutput = this.t('HELP_MESSAGE').replace('{author}', authors[i]);
         const reprompt = this.t('HELP_REPROMPT');

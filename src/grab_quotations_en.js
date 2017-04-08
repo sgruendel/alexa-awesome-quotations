@@ -160,7 +160,7 @@ function quotesForAuthor(i, href, callback) {
     request.end();
 }
 
-const UNWANTED_AUTHORS = [ 'Benito Mussolini', 'Eminem', 'Kurt Cobain' ];
+const UNWANTED_AUTHORS = [ 'Benito Mussolini', 'Donald Trump', 'Eminem', 'Fidel Castro', 'Ice Cube', 'Ice T', 'Khloe Kardashian', 'Kim Kardashian', 'Kurt Cobain', 'Nas', 'Nigel Farage', 'Stephen Bannon', 'Vladimir Lenin', 'Vladimir Putin' ];
 const A = 97;
 const Z = 122;
 var authorNames = [];
@@ -194,6 +194,7 @@ for (var c = A; c <= Z; c++) {
                 // initialize quotes for author with empty array, so each page with quotes can be pushed below
                 quotes[i] = [];
             }
+            var authorCount = 0;
             for (var i = 0; i < authorNames.length; i++) {
                 const author = authors[i];
                 quotesForAuthor(authors[i].name, authors[i].href, (authorName, quotesForA) => {
@@ -205,7 +206,9 @@ for (var c = A; c <= Z; c++) {
                     for (var j = 0; j < quotesForA.length; j++) {
                         quotes[index].push(quotesForA[j]);
                     }
-                    if (i == authorNames.length) {
+                    authorCount++;
+                    console.log(authorCount, authorNames.length);
+                    if (authorCount == authorNames.length) {
                         stream = fs.createWriteStream('quotes_en.json');
                         stream.write(JSON.stringify(quotes, null, 2));
                         stream.end();
