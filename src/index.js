@@ -30,13 +30,17 @@ const authorsNormalized_en = authors_en.map(author => {
         .replace('dr. ', 'doctor ').replace(', jr.', ' junior').replace(' ii', ' 2');
     // normalize to lower case, replacing '-' with space
     // replacing full title with abbreviation, "Pope John Paul II" => "2"
-    const re = /^([a-z]\. )+/;
+    
+    const re = /([a-z]\. )+/;
     const result = re.exec(normalized);
     if (result) {
         // C. S. Lewis => cs lewis
         // A. P. J. Abdul Kalam => apj abdul kalam
-        const initials = result[0].replace(/\. /g, '');
-        normalized = initials + normalized.slice(result[0].length - 1);
+        // George S. Patton => george s patton
+        const letters = result[0].replace(/\. /g, '');
+        normalized = normalized.substring(0, result.index)
+            + letters
+            + normalized.substring(result.index + result[0].length - 1, normalized.length);
     }
     return normalized;
 });
