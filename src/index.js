@@ -117,7 +117,7 @@ const handlers = {
                 }
             }
             if (!quotedAuthor) {
-                console.log('author not found');
+                console.error('author not found', author);
             }
         } else {
             console.error('No slot value given for author');
