@@ -1,6 +1,6 @@
 {
   "name": "awesome-quotations",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Alexa Skill for awesome quotations",
   "repository": {
     "type": "git",
@@ -17,12 +17,39 @@
   "author": "Stefan Gründel",
   "license": "GPL-3.0",
   "dependencies": {
-    "alexa-sdk": "^1.0.7"
+    "alexa-sdk": "^1.0.25"
   },
   "devDependencies": {
-    "aws-lambda-mock-context": "^3.0.1",
-    "chai": "^3.5.0",
-    "cheerio": "^0.22.0",
-    "mocha": "^3.2.0"
+    "aws-lambda-mock-context": "^3.1.1",
+    "chai": "^4.1.2",
+    "cheerio": "^1.0.0-rc.2",
+    "eslint": "^4.18.0",
+    "eslint-config-strongloop": "^2.1.0",
+    "mocha": "^5.0.1"
+  },
+  "eslintConfig": {
+    "extends": "strongloop",
+    "env": {
+      "es6": true,
+      "node": true,
+      "mocha": true
+    },
+    "rules": {
+      "indent": [
+        "error",
+        4
+      ],
+      "max-len": [
+        "error",
+        120,
+        4,
+        {
+          "ignoreComments": true,
+          "ignoreUrls": true,
+          "ignoreStrings": true,
+          "ignorePattern": "^\\s*var\\s.+=\\s*(require\\s*\\()|(/)"
+        }
+      ]
+    }
   }
 }

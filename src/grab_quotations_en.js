@@ -10,39 +10,40 @@ function authorsWithLetter(c, page, callback) {
         path += page;
     }
     console.log(path);
-    const request = https.get({ host: 'www.brainyquote.com',
-                                port: 443,
-                                path: path,
-                              });
+    const request = https.get({
+        host: 'www.brainyquote.com',
+        port: 443,
+        path: path,
+    });
 
     request.on('response', response => {
-        if (response.statusCode == 301) {
+        if (response.statusCode === 301) {
             // page does not exist, we get a redirect to first page
             callback(null); // notify caller we're done
             return;
         } else if (response.statusCode < 200 || response.statusCode > 299) {
             console.error(path);
-            throw(new Error(response.statusMessage));
+            throw new Error(response.statusMessage);
         }
-        
+
         response.on('error', err => {
-            throw(err);
+            throw err;
         });
 
         // explicitly treat incoming data as utf8
         response.setEncoding('utf8');
 
-        // incrementally capture the incoming response body        
+        // incrementally capture the incoming response body
         var body = '';
         response.on('data', chunk => {
             body += chunk;
         });
-            
+
         response.on('end', () => {
             const $ = cheerio.load(body);
             const authors = $('.bq_s tbody tr').map((i, tr) => {
                 const cells = $('td', tr).map((j, td) => {
-                    if (j == 0) {
+                    if (j === 0) {
                         // author column includes href to quotes
                         const href = $('a', td).attr('href');
                         const text = $('a', td).text();
@@ -54,7 +55,7 @@ function authorsWithLetter(c, page, callback) {
                 const name = cells[0].text;
                 const href = cells[0].href;
                 const profession = cells[1];
-                //console.log(name, href, profession);
+                // console.log(name, href, profession);
                 return { name, href, profession };
             });
             callback(authors);
@@ -64,9 +65,9 @@ function authorsWithLetter(c, page, callback) {
     });
 
     request.on('error', err => {
-        throw(err);
+        throw err;
     });
-    
+
     request.end();
 }
 
@@ -76,30 +77,31 @@ function popularAuthorsWithLetter(c, page, callback) {
         path += page;
     }
     console.log(path);
-    const request = https.get({ host: 'www.brainyquote.com',
-                                port: 443,
-                                path: path,
-                              });
+    const request = https.get({
+        host: 'www.brainyquote.com',
+        port: 443,
+        path: path,
+    });
 
     request.on('response', response => {
         if (response.statusCode < 200 || response.statusCode > 299) {
             console.error(path);
-            throw(new Error(response.statusMessage));
+            throw new Error(response.statusMessage);
         }
-        
+
         response.on('error', err => {
-            throw(err);
+            throw err;
         });
 
         // explicitly treat incoming data as utf8
         response.setEncoding('utf8');
 
-        // incrementally capture the incoming response body        
+        // incrementally capture the incoming response body
         var body = '';
         response.on('data', chunk => {
             body += chunk;
         });
-            
+
         response.on('end', () => {
             const $ = cheerio.load(body);
             const authors = $('.block-sm-az').map((i, a) => {
@@ -108,45 +110,46 @@ function popularAuthorsWithLetter(c, page, callback) {
                 return { name, href };
             });
             callback(authors);
-            callback (null); // notify caller we're done
+            callback(null); // notify caller we're done
         });
     });
 
     request.on('error', err => {
-        throw(err);
+        throw err;
     });
-    
+
     request.end();
 }
 
 function quotesForAuthor(i, href, callback) {
     console.log(href);
-    const request = https.get({ host: 'www.brainyquote.com',
-                                port: 443,
-                                path: href,
-                              });
+    const request = https.get({
+        host: 'www.brainyquote.com',
+        port: 443,
+        path: href,
+    });
     request.on('response', response => {
         if (response.statusCode < 200 || response.statusCode > 299) {
             console.error(href);
-            throw(new Error(response.statusMessage));
+            throw new Error(response.statusMessage);
         }
         response.on('error', err => {
-            throw(err);
+            throw err;
         });
 
         // explicitly treat incoming data as utf8
         response.setEncoding('utf8');
 
-        // incrementally capture the incoming response body        
+        // incrementally capture the incoming response body
         var body = '';
         response.on('data', chunk => {
             body += chunk;
         });
-            
+
         response.on('end', () => {
             const $ = cheerio.load(body);
             const quotes = $('#quotesList .b-qt').map((i, a) => {
-                //console.log(a);
+                // console.log(a);
                 return $(a).text();
             });
             callback(i, quotes);
@@ -154,9 +157,9 @@ function quotesForAuthor(i, href, callback) {
     });
 
     request.on('error', err => {
-        throw(err);
+        throw err;
     });
-    
+
     request.end();
 }
 
@@ -182,25 +185,25 @@ for (var c = A; c <= Z; c++) {
             letterCount++;
         }
 
-        if (letterCount > Z-A) {
+        if (letterCount > Z - A) {
             authorNames.sort();
-            //console.log(authorNames);
+            // console.log(authorNames);
             var stream = fs.createWriteStream('authors_en.json');
             stream.write(JSON.stringify(authorNames, null, 2));
             stream.end();
 
             var quotes = [];
-            for (var i = 0; i < authorNames.length; i++) {
+            for (i = 0; i < authorNames.length; i++) {
                 // initialize quotes for author with empty array, so each page with quotes can be pushed below
                 quotes[i] = [];
             }
             var authorCount = 0;
-            for (var i = 0; i < authorNames.length; i++) {
+            for (i = 0; i < authorNames.length; i++) {
                 const author = authors[i];
-                quotesForAuthor(authors[i].name, authors[i].href, (authorName, quotesForA) => {
+                quotesForAuthor(author.name, author.href, (authorName, quotesForA) => {
                     console.log('Parsing quotes for', authorName);
                     var index = 0;
-                    while (authorName != authorNames[index]) {
+                    while (authorName !== authorNames[index]) {
                         index++;
                     }
                     for (var j = 0; j < quotesForA.length; j++) {
@@ -208,7 +211,7 @@ for (var c = A; c <= Z; c++) {
                     }
                     authorCount++;
                     console.log(authorCount, authorNames.length);
-                    if (authorCount == authorNames.length) {
+                    if (authorCount === authorNames.length) {
                         stream = fs.createWriteStream('quotes_en.json');
                         stream.write(JSON.stringify(quotes, null, 2));
                         stream.end();

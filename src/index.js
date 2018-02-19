@@ -1,13 +1,3 @@
-/* eslint-disable  func-names */
-/* eslint quote-props: ["error", "consistent"]*/
-/**
- * This sample demonstrates a simple skill built with the Amazon Alexa Skills
- * nodejs skill development kit.
- * This sample supports multiple lauguages. (en-US, en-GB, de-DE).
- * The Intent Schema, Custom Slots and Sample Utterances for this skill, as well
- * as testing instructions are located at https://github.com/alexa/skill-sample-nodejs-fact
- **/
-
 'use strict';
 
 const Alexa = require('alexa-sdk');
@@ -30,7 +20,7 @@ const authorsNormalized_en = authors_en.map(author => {
         .replace('dr. ', 'doctor ').replace(', jr.', ' junior').replace(' ii', ' 2');
     // normalize to lower case, replacing '-' with space
     // replacing full title with abbreviation, "Pope John Paul II" => "2"
-    
+
     const re = /([a-z]\. )+/;
     const result = re.exec(normalized);
     if (result) {
@@ -46,40 +36,40 @@ const authorsNormalized_en = authors_en.map(author => {
 });
 
 const languageStrings = {
-    "en": {
-        "translation": {
-            "AUTHORS": authors_en,
-            "AUTHORS_NORMALIZED": authorsNormalized_en,
-            "QUOTES": quotes_en,
-            "AUTHOR_NOT_FOUND": "I don't know the author. ",
-            "RANDOM_QUOTE_MESSAGE": "Here's a quotation from ",
-            "AUTHOR_QUOTE_MESSAGE": "Here's your quotation from ",
-            "HELP_MESSAGE": "You can say 'Give me a quotation', or you can say 'Quote {author}', or you can say 'Exit'. How can I help you?",
-            "HELP_REPROMPT": "How can I help you?",
-            "STOP_MESSAGE": "Goodbye!",
+    en: {
+        translation: {
+            AUTHORS: authors_en,
+            AUTHORS_NORMALIZED: authorsNormalized_en,
+            QUOTES: quotes_en,
+            AUTHOR_NOT_FOUND: "I don't know the author. ",
+            RANDOM_QUOTE_MESSAGE: "Here's a quotation from ",
+            AUTHOR_QUOTE_MESSAGE: "Here's your quotation from ",
+            HELP_MESSAGE: "You can say 'Give me a quotation', or you can say 'Quote {author}', or you can say 'Exit'. How can I help you?",
+            HELP_REPROMPT: 'How can I help you?',
+            STOP_MESSAGE: 'Goodbye!',
         },
     },
-        
-    "de": {
-        "translation": {
-            "AUTHORS": authors_de,
-            "AUTHORS_NORMALIZED": authorsNormalized_de,
-            "QUOTES": quotes_de,
-            "AUTHOR_NOT_FOUND": "Ich kenne den Autor nicht. ",
-            "RANDOM_QUOTE_MESSAGE": "Hier ist ein Zitat von ",
-            "AUTHOR_QUOTE_MESSAGE": "Hier ist dein Zitat von ",
-            "HELP_MESSAGE": "Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Zitiere {author}“, oder du kannst „Beenden“ sagen. Was soll ich tun?",
-            "HELP_REPROMPT": "Was soll ich tun?",
-            "STOP_MESSAGE": "Bis bald!",
+
+    de: {
+        translation: {
+            AUTHORS: authors_de,
+            AUTHORS_NORMALIZED: authorsNormalized_de,
+            QUOTES: quotes_de,
+            AUTHOR_NOT_FOUND: 'Ich kenne den Autor nicht. ',
+            RANDOM_QUOTE_MESSAGE: 'Hier ist ein Zitat von ',
+            AUTHOR_QUOTE_MESSAGE: 'Hier ist dein Zitat von ',
+            HELP_MESSAGE: 'Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Zitiere {author}“, oder du kannst „Beenden“ sagen. Was soll ich tun?',
+            HELP_REPROMPT: 'Was soll ich tun?',
+            STOP_MESSAGE: 'Bis bald!',
         },
     },
 };
 
 const handlers = {
-    'LaunchRequest': function () {
+    LaunchRequest: function() {
         this.emit('AMAZON.HelpIntent');
     },
-    'RandomQuoteIntent': function () {
+    RandomQuoteIntent: function() {
         const authors = this.t('AUTHORS');
         const quotes = this.t('QUOTES');
         const i = Math.floor(Math.random() * quotes.length);
@@ -89,7 +79,7 @@ const handlers = {
         const speechOutput = this.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + randomQuote;
         this.emit(':tellWithCard', speechOutput, quotedAuthor, randomQuote);
     },
-    'AuthorQuoteIntent': function () {
+    AuthorQuoteIntent: function() {
         const authors = this.t('AUTHORS');
         const authorsNormalized = this.t('AUTHORS_NORMALIZED');
         const quotes = this.t('QUOTES');
@@ -98,17 +88,17 @@ const handlers = {
         var quotedAuthor, authorQuote;
         if (authorSlot && authorSlot.value) {
             const author = authorSlot.value.toLowerCase();
-            
+
             console.log('searching for author', author);
             for (var i = 0; i < authors.length; i++) {
-                if (authorsNormalized[i] == author) {
+                if (authorsNormalized[i] === author) {
                     console.log('found exact match', authors[i], 'with', quotes[i].length, 'quotes');
                     quotedAuthor = authors[i];
                     authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
                 }
             }
             if (!authorQuote) {
-                for (var i = 0; i < authors.length; i++) {
+                for (i = 0; i < authors.length; i++) {
                     if (authorsNormalized[i].includes(author)) {
                         console.log('found partial match', authors[i], 'with', quotes[i].length, 'quotes');
                         quotedAuthor = authors[i];
@@ -137,20 +127,20 @@ const handlers = {
 
         this.emit(':tellWithCard', speechOutput, quotedAuthor, authorQuote);
     },
-    'AMAZON.HelpIntent': function () {
+    'AMAZON.HelpIntent': function() {
         const authors = this.t('AUTHORS');
         const i = Math.floor(Math.random() * authors.length);
         const speechOutput = this.t('HELP_MESSAGE').replace('{author}', authors[i]);
         const reprompt = this.t('HELP_REPROMPT');
         this.emit(':ask', speechOutput, reprompt);
     },
-    'AMAZON.CancelIntent': function () {
+    'AMAZON.CancelIntent': function() {
         this.emit(':tell', this.t('STOP_MESSAGE'));
     },
-    'AMAZON.StopIntent': function () {
+    'AMAZON.StopIntent': function() {
         this.emit(':tell', this.t('STOP_MESSAGE'));
     },
-    'SessionEndedRequest': function () {
+    SessionEndedRequest: function() {
         this.emit(':tell', this.t('STOP_MESSAGE'));
     },
 };

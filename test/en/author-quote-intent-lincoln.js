@@ -1,7 +1,7 @@
 'use strict';
 
 var expect = require('chai').expect;
-var index = require('../../index');
+var index = require('../../src/index');
 
 const context = require('aws-lambda-mock-context');
 const ctx = context();
