@@ -8,31 +8,38 @@ const authors_en = require('./authors_en.json');
 const quotes_de = require('./quotes_de.json');
 const quotes_en = require('./quotes_en.json');
 
-const authorsNormalized_de = authors_de.map(author => {
-    return author.toLocaleLowerCase().replace('-', ' ')
-        .replace('prof. dr. ', 'professor doktor ')
-        .replace('ø', 'o');
-    // normalize to lower case, replacing '-' with space, replacing full title with abbreviation
-    // ø => o for Søren Kierkegaard
-});
-const authorsNormalized_en = authors_en.map(author => {
-    var normalized = author.toLocaleLowerCase().replace('-', ' ')
-        .replace('dr. ', 'doctor ').replace(', jr.', ' junior').replace(' ii', ' 2');
-    // normalize to lower case, replacing '-' with space
-    // replacing full title with abbreviation, "Pope John Paul II" => "2"
-
+function normalizeAuthor(author) {
     const re = /([a-z]\. )+/;
-    const result = re.exec(normalized);
+    const result = re.exec(author);
     if (result) {
         // C. S. Lewis => cs lewis
+        // J. K. Rowling => jk rowling
         // A. P. J. Abdul Kalam => apj abdul kalam
         // George S. Patton => george s patton
         const letters = result[0].replace(/\. /g, '');
-        normalized = normalized.substring(0, result.index)
+        author = author.substring(0, result.index)
             + letters
-            + normalized.substring(result.index + result[0].length - 1, normalized.length);
+            + author.substring(result.index + result[0].length - 1, author.length);
     }
-    return normalized;
+    return author;
+}
+
+const authorsNormalized_de = authors_de.map(author => {
+    const normalizedDe = author.toLocaleLowerCase().replace('-', ' ')
+        .replace('prof. dr. ', 'professor doktor ')
+        .replace('ø', 'o');
+    // normalize to lower case, replacing '-' with space
+    // replacing full title with abbreviation, ø => o for Søren Kierkegaard
+    return normalizeAuthor(normalizedDe);
+});
+const authorsNormalized_en = authors_en.map(author => {
+    const normalizedEn = author.toLocaleLowerCase().replace('-', ' ')
+        .replace('dr. ', 'doctor ')
+        .replace(', jr.', ' junior')
+        .replace(' ii', ' 2');
+    // normalize to lower case, replacing '-' with space
+    // replacing full title with abbreviation, "Pope John Paul II" => "2"
+    return normalizeAuthor(normalizedEn);
 });
 
 const languageStrings = {
