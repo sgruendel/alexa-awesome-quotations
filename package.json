@@ -1,6 +1,6 @@
 {
   "name": "awesome-quotations",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Alexa Skill for awesome quotations",
   "repository": {
     "type": "git",
@@ -8,11 +8,11 @@
   },
   "main": "index.js",
   "scripts": {
-    "invoke": "aws lambda invoke --function-name 'awesomeQuotations' --payload fileb://../tests/events/alexa-start-session.json ../tests/out.txt && cat ../tests/out.txt",
+    "invoke": "aws lambda invoke --function-name 'awesomeQuotations' --payload fileb://tests/events/alexa-start-session.json tests/out.txt && cat tests/out.txt",
     "test": "mocha --recursive",
-    "deploy": "npm prune --production && npm run zip && npm run upload",
-    "upload": "aws lambda update-function-code --function-name 'awesomeQuotations' --zip-file fileb://../index.zip",
-    "zip": "zip -r ../index.zip . -x 'package.json' 'test/*' '*.git*' '*~'"
+    "deploy": "npm run zip && npm run upload",
+    "upload": "aws lambda update-function-code --function-name 'awesomeQuotations' --zip-file fileb://index.zip",
+    "zip": "npm prune --production && zip -r index.zip node_modules && cd src && zip ../index.zip *"
   },
   "author": "Stefan Gründel",
   "license": "GPL-3.0",
