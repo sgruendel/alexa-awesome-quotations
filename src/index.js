@@ -1,8 +1,12 @@
 'use strict';
 
-const Alexa = require('alexa-sdk');
+const Alexa = require('ask-sdk-core');
+const i18n = require('i18next');
+const sprintf = require('i18next-sprintf-postprocessor');
+const dashbot = process.env.DASHBOT_API_KEY ? require('dashbot')(process.env.DASHBOT_API_KEY).alexa : undefined;
 
-const APP_ID = 'amzn1.ask.skill.0b9d09d1-e37f-4753-8e50-e8adbfd6aeeb';
+const SKILL_ID = 'amzn1.ask.skill.0b9d09d1-e37f-4753-8e50-e8adbfd6aeeb';
+
 const authors_de = require('./authors_de.json');
 const authors_en = require('./authors_en.json');
 const quotes_de = require('./quotes_de.json');
@@ -51,12 +55,11 @@ const languageStrings = {
             AUTHOR_NOT_FOUND: "I don't know the author. ",
             RANDOM_QUOTE_MESSAGE: "Here's a quotation from ",
             AUTHOR_QUOTE_MESSAGE: "Here's your quotation from ",
-            HELP_MESSAGE: "You can say 'Give me a quotation', or you can say 'Quote {author}', or you can say 'Exit'. How can I help you?",
-            HELP_REPROMPT: 'How can I help you?',
-            STOP_MESSAGE: 'Goodbye!',
+            HELP_MESSAGE: 'You can say „Give me a quotation“, or you can say „Quote %s“, or you can say „Exit“. What can I help you with?',
+            HELP_REPROMPT: 'What can I help you with?',
+            STOP_MESSAGE: 'See you soon!',
         },
     },
-
     de: {
         translation: {
             AUTHORS: authors_de,
@@ -65,33 +68,60 @@ const languageStrings = {
             AUTHOR_NOT_FOUND: 'Ich kenne den Autor nicht. ',
             RANDOM_QUOTE_MESSAGE: 'Hier ist ein Zitat von ',
             AUTHOR_QUOTE_MESSAGE: 'Hier ist dein Zitat von ',
-            HELP_MESSAGE: 'Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Zitiere {author}“, oder du kannst „Beenden“ sagen. Was soll ich tun?',
+            HELP_MESSAGE: 'Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Zitiere %s“, oder du kannst „Beenden“ sagen. Was soll ich tun?',
             HELP_REPROMPT: 'Was soll ich tun?',
-            STOP_MESSAGE: 'Bis bald!',
+            STOP_MESSAGE: '<say-as interpret-as="interjection">bis dann</say-as>.',
         },
     },
 };
 
-const handlers = {
-    LaunchRequest: function() {
-        this.emit('AMAZON.HelpIntent');
+function getTranslationArray(key, locale) {
+    var translations = languageStrings[locale];
+    if (!translations || !translations.translation[key]) {
+        translations = languageStrings[locale.slice(0, 2)];
+    }
+    return translations.translation[key];
+}
+
+const RandomQuoteIntentHandler = {
+    canHandle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest' && request.intent.name === 'RandomQuoteIntent';
     },
-    RandomQuoteIntent: function() {
-        const authors = this.t('AUTHORS');
-        const quotes = this.t('QUOTES');
+    handle(handlerInput) {
+        const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
+        const locale = handlerInput.requestEnvelope.request.locale;
+
+        console.log('getting quotes');
+        const quotes = getTranslationArray('QUOTES', locale);
         const i = Math.floor(Math.random() * quotes.length);
-        const quotedAuthor = authors[i];
+        const quotedAuthor = getTranslationArray('AUTHORS', locale)[i];
         console.log('using random author', quotedAuthor);
         const randomQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
-        const speechOutput = this.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + randomQuote;
-        this.emit(':tellWithCard', speechOutput, quotedAuthor, randomQuote);
-    },
-    AuthorQuoteIntent: function() {
-        const authors = this.t('AUTHORS');
-        const authorsNormalized = this.t('AUTHORS_NORMALIZED');
-        const quotes = this.t('QUOTES');
 
-        const authorSlot = this.event.request.intent.slots.Author;
+        const speechOutput = requestAttributes.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + randomQuote;
+        return handlerInput.responseBuilder
+            .speak(speechOutput)
+            .withStandardCard(quotedAuthor, randomQuote)
+            .getResponse();
+    },
+};
+
+const AuthorQuoteIntentHandler = {
+    canHandle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest' && request.intent.name === 'AuthorQuoteIntent';
+    },
+    handle(handlerInput) {
+        const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
+        const locale = handlerInput.requestEnvelope.request.locale;
+
+        const authors = getTranslationArray('AUTHORS', locale);
+        const authorsNormalized = getTranslationArray('AUTHORS_NORMALIZED', locale);
+        const quotes = getTranslationArray('QUOTES', locale);
+
+        const slots = handlerInput.requestEnvelope.request.intent.slots;
+        const authorSlot = slots.Author;
         var quotedAuthor, authorQuote;
         if (authorSlot && authorSlot.value) {
             const author = authorSlot.value.toLowerCase();
@@ -123,40 +153,105 @@ const handlers = {
         // Create speech output
         var speechOutput;
         if (quotedAuthor) {
-            speechOutput = this.t('AUTHOR_QUOTE_MESSAGE') + quotedAuthor + ': ' + authorQuote;
+            speechOutput = requestAttributes.t('AUTHOR_QUOTE_MESSAGE') + quotedAuthor + ': ' + authorQuote;
         } else {
             const i = Math.floor(Math.random() * quotes.length);
             quotedAuthor = authors[i];
             console.log('using random author', quotedAuthor);
             authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
-            speechOutput = this.t('AUTHOR_NOT_FOUND') + this.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + authorQuote;
+            speechOutput = requestAttributes.t('AUTHOR_NOT_FOUND') + requestAttributes.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + authorQuote;
         }
 
-        this.emit(':tellWithCard', speechOutput, quotedAuthor, authorQuote);
-    },
-    'AMAZON.HelpIntent': function() {
-        const authors = this.t('AUTHORS');
-        const i = Math.floor(Math.random() * authors.length);
-        const speechOutput = this.t('HELP_MESSAGE').replace('{author}', authors[i]);
-        const reprompt = this.t('HELP_REPROMPT');
-        this.emit(':ask', speechOutput, reprompt);
-    },
-    'AMAZON.CancelIntent': function() {
-        this.emit(':tell', this.t('STOP_MESSAGE'));
-    },
-    'AMAZON.StopIntent': function() {
-        this.emit(':tell', this.t('STOP_MESSAGE'));
-    },
-    SessionEndedRequest: function() {
-        this.emit(':tell', this.t('STOP_MESSAGE'));
+        return handlerInput.responseBuilder
+            .speak(speechOutput)
+            .withStandardCard(quotedAuthor, authorQuote)
+            .getResponse();
     },
 };
 
-exports.handler = (event, context) => {
-    const alexa = Alexa.handler(event, context);
-    alexa.appId = APP_ID;
-    // To enable string internationalization (i18n) features, set a resources object.
-    alexa.resources = languageStrings;
-    alexa.registerHandlers(handlers);
-    alexa.execute();
+const HelpIntentHandler = {
+    canHandle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        return request.type === 'LaunchRequest'
+            || (request.type === 'IntentRequest' && request.intent.name === 'AMAZON.HelpIntent');
+    },
+    handle(handlerInput) {
+        const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
+
+        const authors = requestAttributes.t('AUTHORS');
+        const i = Math.floor(Math.random() * authors.length);
+        const speechOutput = requestAttributes.t('HELP_MESSAGE', authors[i]);
+        const repromptSpeechOutput = requestAttributes.t('HELP_REPROMPT');
+        return handlerInput.responseBuilder
+            .speak(speechOutput)
+            .reprompt(repromptSpeechOutput)
+            .getResponse();
+    },
 };
+
+const CancelAndStopIntentHandler = {
+    canHandle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest'
+            && (request.intent.name === 'AMAZON.CancelIntent' || request.intent.name === 'AMAZON.StopIntent');
+    },
+    handle(handlerInput) {
+        const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
+        const speechOutput = requestAttributes.t('STOP_MESSAGE');
+        return handlerInput.responseBuilder
+            .speak(speechOutput)
+            .getResponse();
+    },
+};
+
+const SessionEndedRequestHandler = {
+    canHandle(handlerInput) {
+        return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
+    },
+    handle(handlerInput) {
+        console.log('Session ended with reason:', handlerInput.requestEnvelope.request.reason);
+        return handlerInput.responseBuilder.getResponse();
+    },
+};
+
+const ErrorHandler = {
+    canHandle() {
+        return true;
+    },
+    handle(handlerInput, error) {
+        console.error('Error handled:', error);
+        return handlerInput.responseBuilder
+            .speak('Sorry, I can\'t understand the command. Please say again?')
+            .reprompt('Sorry, I can\'t understand the command. Please say again?')
+            .getResponse();
+    },
+};
+
+const LocalizationInterceptor = {
+    process(handlerInput) {
+        const localizationClient = i18n.use(sprintf).init({
+            lng: handlerInput.requestEnvelope.request.locale,
+            overloadTranslationOptionHandler: sprintf.overloadTranslationOptionHandler,
+            resources: languageStrings,
+            returnObjects: true,
+        });
+
+        const attributes = handlerInput.attributesManager.getRequestAttributes();
+        attributes.t = (...args) => {
+            return localizationClient.t(...args);
+        };
+    },
+};
+
+exports.handler = Alexa.SkillBuilders.custom()
+    .addRequestHandlers(
+        RandomQuoteIntentHandler,
+        AuthorQuoteIntentHandler,
+        HelpIntentHandler,
+        CancelAndStopIntentHandler,
+        SessionEndedRequestHandler)
+    .addRequestInterceptors(LocalizationInterceptor)
+    .addErrorHandlers(ErrorHandler)
+    .withSkillId(SKILL_ID)
+    .lambda();
+if (dashbot) exports.handler = dashbot.handler(exports.handler);

@@ -1,0 +1,925 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "schöne sprüche",
+      "intents": [
+        {
+          "name": "RandomQuoteIntent",
+          "samples": [
+            "gib mir irgendein Zitat",
+            "gib mir ein Zitat",
+            "nach einem Zitat",
+            "nach einem Spruch"
+          ]
+        },
+        {
+          "name": "AuthorQuoteIntent",
+          "slots": [
+            {
+              "name": "Author",
+              "type": "LIST_OF_AUTHORS"
+            }
+          ],
+          "samples": [
+            "gib mir ein Zitat von {Author}",
+            "gib mir ein Zitat vom {Author}",
+            "nach einem Zitat von {Author}",
+            "nach einem Zitat vom {Author}",
+            "nach einem Spruch von {Author}",
+            "nach einem Spruch vom {Author}",
+            "nach etwas von {Author}",
+            "nach etwas vom {Author}",
+            "nach {Author}",
+            "zitiere {Author}"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent"
+        },
+        {
+          "name": "AMAZON.StopIntent"
+        },
+        {
+          "name": "AMAZON.CancelIntent"
+        }
+      ],
+      "types": [
+        {
+          "values": [
+            {
+              "name": {
+                "value": "Abraham Lincoln"
+              }
+            },
+            {
+              "name": {
+                "value": "Lincoln"
+              }
+            },
+            {
+              "name": {
+                "value": "Albert Camus"
+              }
+            },
+            {
+              "name": {
+                "value": "Camus"
+              }
+            },
+            {
+              "name": {
+                "value": "Albert Einstein"
+              }
+            },
+            {
+              "name": {
+                "value": "Einstein"
+              }
+            },
+            {
+              "name": {
+                "value": "Albert Schweitzer"
+              }
+            },
+            {
+              "name": {
+                "value": "Schweitzer"
+              }
+            },
+            {
+              "name": {
+                "value": "Aldous Huxley"
+              }
+            },
+            {
+              "name": {
+                "value": "Huxley"
+              }
+            },
+            {
+              "name": {
+                "value": "Andreas Herteux"
+              }
+            },
+            {
+              "name": {
+                "value": "Herteux"
+              }
+            },
+            {
+              "name": {
+                "value": "Aristoteles"
+              }
+            },
+            {
+              "name": {
+                "value": "Arnold Schwarzenegger"
+              }
+            },
+            {
+              "name": {
+                "value": "Schwarzenegger"
+              }
+            },
+            {
+              "name": {
+                "value": "Arthur Schopenhauer"
+              }
+            },
+            {
+              "name": {
+                "value": "Schopenhauer"
+              }
+            },
+            {
+              "name": {
+                "value": "Audrey Hepburn"
+              }
+            },
+            {
+              "name": {
+                "value": "Hepburn"
+              }
+            },
+            {
+              "name": {
+                "value": "Barack Obama"
+              }
+            },
+            {
+              "name": {
+                "value": "Obama"
+              }
+            },
+            {
+              "name": {
+                "value": "Bertolt Brecht"
+              }
+            },
+            {
+              "name": {
+                "value": "Brecht"
+              }
+            },
+            {
+              "name": {
+                "value": "Bob Marley"
+              }
+            },
+            {
+              "name": {
+                "value": "Bodhidharma"
+              }
+            },
+            {
+              "name": {
+                "value": "Bruce Lee"
+              }
+            },
+            {
+              "name": {
+                "value": "Buddha"
+              }
+            },
+            {
+              "name": {
+                "value": "Byron Katie"
+              }
+            },
+            {
+              "name": {
+                "value": "Carl Gustav Jung"
+              }
+            },
+            {
+              "name": {
+                "value": "C. G. Jung"
+              }
+            },
+            {
+              "name": {
+                "value": "Jung"
+              }
+            },
+            {
+              "name": {
+                "value": "Casper"
+              }
+            },
+            {
+              "name": {
+                "value": "Charles Bukowski"
+              }
+            },
+            {
+              "name": {
+                "value": "Bukowski"
+              }
+            },
+            {
+              "name": {
+                "value": "Charlie Chaplin"
+              }
+            },
+            {
+              "name": {
+                "value": "Chaplin"
+              }
+            },
+            {
+              "name": {
+                "value": "Che Guevara"
+              }
+            },
+            {
+              "name": {
+                "value": "Dalai Lama"
+              }
+            },
+            {
+              "name": {
+                "value": "Dante Alighieri"
+              }
+            },
+            {
+              "name": {
+                "value": "Alighieri"
+              }
+            },
+            {
+              "name": {
+                "value": "David Henzmann"
+              }
+            },
+            {
+              "name": {
+                "value": "Henzmann"
+              }
+            },
+            {
+              "name": {
+                "value": "Dietrich Bonhoeffer"
+              }
+            },
+            {
+              "name": {
+                "value": "Bonhoeffer"
+              }
+            },
+            {
+              "name": {
+                "value": "Dita Von Teese"
+              }
+            },
+            {
+              "name": {
+                "value": "Dominic DoCuir"
+              }
+            },
+            {
+              "name": {
+                "value": "Ellington"
+              }
+            },
+            {
+              "name": {
+                "value": "Duke Ellington"
+              }
+            },
+            {
+              "name": {
+                "value": "Eckhart Tolle"
+              }
+            },
+            {
+              "name": {
+                "value": "Tolle"
+              }
+            },
+            {
+              "name": {
+                "value": "Edina Stratmann"
+              }
+            },
+            {
+              "name": {
+                "value": "Stratmann"
+              }
+            },
+            {
+              "name": {
+                "value": "Erich Kästner"
+              }
+            },
+            {
+              "name": {
+                "value": "Kästner"
+              }
+            },
+            {
+              "name": {
+                "value": "Ernest Hemingway"
+              }
+            },
+            {
+              "name": {
+                "value": "Hemingway"
+              }
+            },
+            {
+              "name": {
+                "value": "Fjodor Dostojewski"
+              }
+            },
+            {
+              "name": {
+                "value": "Dostojewski"
+              }
+            },
+            {
+              "name": {
+                "value": "Fred Ammon"
+              }
+            },
+            {
+              "name": {
+                "value": "Ammon"
+              }
+            },
+            {
+              "name": {
+                "value": "Friedrich Nietzsche"
+              }
+            },
+            {
+              "name": {
+                "value": "Nietzsche"
+              }
+            },
+            {
+              "name": {
+                "value": "Friedrich Schiller"
+              }
+            },
+            {
+              "name": {
+                "value": "Schiller"
+              }
+            },
+            {
+              "name": {
+                "value": "G. I. Gurdjieff"
+              }
+            },
+            {
+              "name": {
+                "value": "Gurdjieff"
+              }
+            },
+            {
+              "name": {
+                "value": "George Bernard Shaw"
+              }
+            },
+            {
+              "name": {
+                "value": "Shaw"
+              }
+            },
+            {
+              "name": {
+                "value": "Groucho Marx"
+              }
+            },
+            {
+              "name": {
+                "value": "Heinz Erhardt"
+              }
+            },
+            {
+              "name": {
+                "value": "Henrik Ibsen"
+              }
+            },
+            {
+              "name": {
+                "value": "Ibsen"
+              }
+            },
+            {
+              "name": {
+                "value": "Henry Ford"
+              }
+            },
+            {
+              "name": {
+                "value": "Ford"
+              }
+            },
+            {
+              "name": {
+                "value": "Heraklit"
+              }
+            },
+            {
+              "name": {
+                "value": "Hermann Hesse"
+              }
+            },
+            {
+              "name": {
+                "value": "Hesse"
+              }
+            },
+            {
+              "name": {
+                "value": "Hippokrates"
+              }
+            },
+            {
+              "name": {
+                "value": "Immanuel Kant"
+              }
+            },
+            {
+              "name": {
+                "value": "Kant"
+              }
+            },
+            {
+              "name": {
+                "value": "J. K. Rowling"
+              }
+            },
+            {
+              "name": {
+                "value": "Rowling"
+              }
+            },
+            {
+              "name": {
+                "value": "Jean Paul"
+              }
+            },
+            {
+              "name": {
+                "value": "Jean-Paul Sartre"
+              }
+            },
+            {
+              "name": {
+                "value": "Sartre"
+              }
+            },
+            {
+              "name": {
+                "value": "Jennifer Withelm"
+              }
+            },
+            {
+              "name": {
+                "value": "Withelm"
+              }
+            },
+            {
+              "name": {
+                "value": "Jiddu Krishnamurti"
+              }
+            },
+            {
+              "name": {
+                "value": "Jim Morrison"
+              }
+            },
+            {
+              "name": {
+                "value": "Johann Wolfgang von Goethe"
+              }
+            },
+            {
+              "name": {
+                "value": "Goethe"
+              }
+            },
+            {
+              "name": {
+                "value": "John Lennon"
+              }
+            },
+            {
+              "name": {
+                "value": "Lennon"
+              }
+            },
+            {
+              "name": {
+                "value": "John Steinbeck"
+              }
+            },
+            {
+              "name": {
+                "value": "Steinbeck"
+              }
+            },
+            {
+              "name": {
+                "value": "Jon Kabat-Zinn"
+              }
+            },
+            {
+              "name": {
+                "value": "Kabat-Zinn"
+              }
+            },
+            {
+              "name": {
+                "value": "Kabir"
+              }
+            },
+            {
+              "name": {
+                "value": "Khalil Gibran"
+              }
+            },
+            {
+              "name": {
+                "value": "Gibran"
+              }
+            },
+            {
+              "name": {
+                "value": "Konfuzius"
+              }
+            },
+            {
+              "name": {
+                "value": "Kurt Tucholsky"
+              }
+            },
+            {
+              "name": {
+                "value": "Tucholsky"
+              }
+            },
+            {
+              "name": {
+                "value": "Laotse"
+              }
+            },
+            {
+              "name": {
+                "value": "Leo N. Tolstoi"
+              }
+            },
+            {
+              "name": {
+                "value": "Tolstoi"
+              }
+            },
+            {
+              "name": {
+                "value": "Leonardo da Vinci"
+              }
+            },
+            {
+              "name": {
+                "value": "da Vinci"
+              }
+            },
+            {
+              "name": {
+                "value": "Loretta Young"
+              }
+            },
+            {
+              "name": {
+                "value": "Young"
+              }
+            },
+            {
+              "name": {
+                "value": "Loriot"
+              }
+            },
+            {
+              "name": {
+                "value": "Mahatma Gandhi"
+              }
+            },
+            {
+              "name": {
+                "value": "Marilyn Monroe"
+              }
+            },
+            {
+              "name": {
+                "value": "Mark Aurel"
+              }
+            },
+            {
+              "name": {
+                "value": "Mark Twain"
+              }
+            },
+            {
+              "name": {
+                "value": "Martin Geiger"
+              }
+            },
+            {
+              "name": {
+                "value": "Geiger"
+              }
+            },
+            {
+              "name": {
+                "value": "Martin Luther"
+              }
+            },
+            {
+              "name": {
+                "value": "Luther"
+              }
+            },
+            {
+              "name": {
+                "value": "Martin Luther King"
+              }
+            },
+            {
+              "name": {
+                "value": "Mengzi"
+              }
+            },
+            {
+              "name": {
+                "value": "Miyamoto Musashi"
+              }
+            },
+            {
+              "name": {
+                "value": "Mooji"
+              }
+            },
+            {
+              "name": {
+                "value": "Morihei Ueshiba"
+              }
+            },
+            {
+              "name": {
+                "value": "Mutter Teresa"
+              }
+            },
+            {
+              "name": {
+                "value": "Norman Cousins"
+              }
+            },
+            {
+              "name": {
+                "value": "Oscar Wilde"
+              }
+            },
+            {
+              "name": {
+                "value": "Wilde"
+              }
+            },
+            {
+              "name": {
+                "value": "Osho"
+              }
+            },
+            {
+              "name": {
+                "value": "Pablo Picasso"
+              }
+            },
+            {
+              "name": {
+                "value": "Picasso"
+              }
+            },
+            {
+              "name": {
+                "value": "Patanjali"
+              }
+            },
+            {
+              "name": {
+                "value": "Paulo Coelho"
+              }
+            },
+            {
+              "name": {
+                "value": "Coelho"
+              }
+            },
+            {
+              "name": {
+                "value": "Peter Egly"
+              }
+            },
+            {
+              "name": {
+                "value": "Egly"
+              }
+            },
+            {
+              "name": {
+                "value": "Prinz Pi"
+              }
+            },
+            {
+              "name": {
+                "value": "Prof. Dr. Christian Ernst"
+              }
+            },
+            {
+              "name": {
+                "value": "Raik Dalgas"
+              }
+            },
+            {
+              "name": {
+                "value": "Dalgas"
+              }
+            },
+            {
+              "name": {
+                "value": "Ralph Waldo Emerson"
+              }
+            },
+            {
+              "name": {
+                "value": "Emerson"
+              }
+            },
+            {
+              "name": {
+                "value": "Rene Kruse"
+              }
+            },
+            {
+              "name": {
+                "value": "René Esteban Jiménez"
+              }
+            },
+            {
+              "name": {
+                "value": "Rumi"
+              }
+            },
+            {
+              "name": {
+                "value": "Seneca"
+              }
+            },
+            {
+              "name": {
+                "value": "Sokrates"
+              }
+            },
+            {
+              "name": {
+                "value": "Stefan Zweig"
+              }
+            },
+            {
+              "name": {
+                "value": "Zweig"
+              }
+            },
+            {
+              "name": {
+                "value": "Steve Jobs"
+              }
+            },
+            {
+              "name": {
+                "value": "Jobs"
+              }
+            },
+            {
+              "name": {
+                "value": "Swami Vivekânanda"
+              }
+            },
+            {
+              "name": {
+                "value": "Søren Kierkegaard"
+              }
+            },
+            {
+              "name": {
+                "value": "Kierkegaard"
+              }
+            },
+            {
+              "name": {
+                "value": "T. S. Eliot"
+              }
+            },
+            {
+              "name": {
+                "value": "Eliot"
+              }
+            },
+            {
+              "name": {
+                "value": "Theodor Fontane"
+              }
+            },
+            {
+              "name": {
+                "value": "Fontane"
+              }
+            },
+            {
+              "name": {
+                "value": "Theodor Seuss Geisel"
+              }
+            },
+            {
+              "name": {
+                "value": "Thich Nhat Hanh"
+              }
+            },
+            {
+              "name": {
+                "value": "Thomas A. Edison"
+              }
+            },
+            {
+              "name": {
+                "value": "Thomas Edison"
+              }
+            },
+            {
+              "name": {
+                "value": "Edison"
+              }
+            },
+            {
+              "name": {
+                "value": "Thomas Pfitzer"
+              }
+            },
+            {
+              "name": {
+                "value": "Victor Hugo"
+              }
+            },
+            {
+              "name": {
+                "value": "Vincent van Gogh"
+              }
+            },
+            {
+              "name": {
+                "value": "van Gogh"
+              }
+            },
+            {
+              "name": {
+                "value": "Wilhelm Busch"
+              }
+            },
+            {
+              "name": {
+                "value": "Busch"
+              }
+            },
+            {
+              "name": {
+                "value": "William Shakespeare"
+              }
+            },
+            {
+              "name": {
+                "value": "Shakespeare"
+              }
+            },
+            {
+              "name": {
+                "value": "Winston Churchill"
+              }
+            },
+            {
+              "name": {
+                "value": "Churchill"
+              }
+            },
+            {
+              "name": {
+                "value": "Zhuangzi"
+              }
+            }
+          ],
+          "name": "LIST_OF_AUTHORS"
+        }
+      ]
+    }
+  }
+}

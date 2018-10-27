@@ -1,33 +1,46 @@
 {
-  "name": "awesome-quotations",
-  "version": "2.1.0",
+  "name": "alexa-awesome-quotations",
+  "version": "3.0.0",
   "description": "Alexa Skill for awesome quotations",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sgruendel/alexa-awesome-quotations.git"
-  },
   "main": "index.js",
   "scripts": {
-    "invoke": "aws lambda invoke --function-name 'awesomeQuotations' --payload fileb://tests/events/alexa-start-session.json tests/out.txt && cat tests/out.txt",
-    "test": "mocha --recursive",
-    "deploy": "npm run zip && npm run upload",
-    "upload": "aws lambda update-function-code --function-name 'awesomeQuotations' --zip-file fileb://index.zip",
-    "zip": "npm prune --production && zip -r index.zip node_modules && cd src && zip ../index.zip *"
+    "invoke": "aws lambda invoke --function-name awesomeQuotations --payload fileb://test/events/alexa-start-session.json test/out.txt && cat test/out.txt",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
+    "deploy-lambda": "npm prune --production && npm run lambda-zip && npm run lambda-update && npm install",
+    "lambda-zip": "zip -x 'node_modules/.cache/*' -r index.zip node_modules && cd src && zip ../index.zip *",
+    "lambda-update": "aws lambda update-function-code --function-name awesomeQuotations --zip-file fileb://index.zip",
+    "deploy-skill": "ask deploy --target skill",
+    "deploy-model": "ask deploy --target model"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgruendel/alexa-awesome-quotations.git"
   },
   "author": "Stefan Gründel",
   "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/sgruendel/alexa-awesome-quotations/issues"
+  },
+  "homepage": "https://github.com/sgruendel/alexa-awesome-quotations#readme",
   "dependencies": {
-    "alexa-sdk": "^1.0.25"
+    "ask-sdk-core": "^2.1.0",
+    "ask-sdk-model": "^1.7.1",
+    "dashbot": "^10.1.1",
+    "i18next": "^11.9.1",
+    "i18next-sprintf-postprocessor": "^0.2.2"
   },
   "devDependencies": {
-    "aws-lambda-mock-context": "^3.1.1",
-    "chai": "^4.1.2",
+    "alexa-skill-test-framework": "^1.2.3",
     "cheerio": "^1.0.0-rc.2",
-    "eslint": "^4.18.0",
+    "eslint": "^4.19.1",
     "eslint-config-strongloop": "^2.1.0",
-    "mocha": "^5.0.1"
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0"
   },
   "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 2017
+    },
     "extends": "strongloop",
     "env": {
       "es6": true,
