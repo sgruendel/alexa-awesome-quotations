@@ -10,6 +10,7 @@ alexaTest.initialize(
     require('../src/index'),
     'amzn1.ask.skill.0b9d09d1-e37f-4753-8e50-e8adbfd6aeeb',
     USER_ID);
+alexaTest.setLocale('en-US');
 
 describe('Awesome Quotations Skill', () => {
     describe('LaunchRequest', () => {
@@ -24,6 +25,7 @@ describe('Awesome Quotations Skill', () => {
     });
 
     describe('RandomQuoteIntent', () => {
+        alexaTest.setExtraFeature('questionMarkCheck', false); // quotations may end with question marks
         alexaTest.test([
             {
                 request: alexaTest.getIntentRequest('RandomQuoteIntent'),
@@ -33,10 +35,33 @@ describe('Awesome Quotations Skill', () => {
                 repromptsNothing: true, shouldEndSession: true,
             },
         ]);
+        alexaTest.setExtraFeature('questionMarkCheck', true);
     });
 
     describe('AuthorQuoteIntent', () => {
+        alexaTest.setExtraFeature('questionMarkCheck', false); // quotations may end with question marks
         alexaTest.test([
+            {
+                request: alexaTest.getIntentRequest('AuthorQuoteIntent', { Author: 'lincoln' }),
+                saysLike: "Here's your quotation from Abraham Lincoln: ",
+                hasCardTitle: 'Abraham Lincoln',
+                //TODO hasCardTextLike: 'Zitat',
+                repromptsNothing: true, shouldEndSession: true,
+            },
+            {
+                request: alexaTest.getIntentRequest('AuthorQuoteIntent', { Author: 'twain' }),
+                saysLike: "Here's your quotation from Mark Twain: ",
+                hasCardTitle: 'Mark Twain',
+                //TODO hasCardTextLike: 'Zitat',
+                repromptsNothing: true, shouldEndSession: true,
+            },
+            {
+                request: alexaTest.getIntentRequest('AuthorQuoteIntent', { Author: 'muhammad ali' }),
+                saysLike: "Here's your quotation from Muhammad Ali: ",
+                hasCardTitle: 'Muhammad Ali',
+                //TODO hasCardTextLike: 'Zitat',
+                repromptsNothing: true, shouldEndSession: true,
+            },
             {
                 request: alexaTest.getIntentRequest('AuthorQuoteIntent', { Author: 'beyoncé knowles' }),
                 saysLike: "Here's your quotation from Beyoncé Knowles: ",
@@ -94,6 +119,7 @@ describe('Awesome Quotations Skill', () => {
                 repromptsNothing: true, shouldEndSession: true,
             },
         ]);
+        alexaTest.setExtraFeature('questionMarkCheck', true);
     });
 
     describe('HelpIntent', () => {

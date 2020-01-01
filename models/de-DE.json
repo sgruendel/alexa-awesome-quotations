@@ -6,8 +6,10 @@
         {
           "name": "RandomQuoteIntent",
           "samples": [
-            "gib mir irgendein Zitat",
+            "einem Zitat",
+            "einem Spruch",
             "gib mir ein Zitat",
+            "gib mir irgendein Zitat",
             "nach einem Zitat",
             "nach einem Spruch"
           ]
@@ -17,34 +19,48 @@
           "slots": [
             {
               "name": "Author",
-              "type": "LIST_OF_AUTHORS"
+              "type": "LIST_OF_AUTHORS",
+              "samples": [
+                "{Author}"
+              ]
             }
           ],
           "samples": [
+            "{Author}",
+            "etwas von {Author}",
+            "etwas vom {Author}",
+            "einem Zitat von {Author}",
+            "einem Zitat vom {Author}",
+            "einem Spruch von {Author}",
+            "einem Spruch vom {Author}",
             "gib mir ein Zitat von {Author}",
             "gib mir ein Zitat vom {Author}",
+            "nach {Author}",
+            "nach etwas von {Author}",
+            "nach etwas vom {Author}",
             "nach einem Zitat von {Author}",
             "nach einem Zitat vom {Author}",
             "nach einem Spruch von {Author}",
             "nach einem Spruch vom {Author}",
-            "nach etwas von {Author}",
-            "nach etwas vom {Author}",
-            "nach {Author}",
             "zitiere {Author}"
           ]
         },
         {
-          "name": "AMAZON.HelpIntent"
+          "name": "AMAZON.HelpIntent",
+          "samples": []
         },
         {
-          "name": "AMAZON.StopIntent"
+          "name": "AMAZON.StopIntent",
+          "samples": []
         },
         {
-          "name": "AMAZON.CancelIntent"
+          "name": "AMAZON.CancelIntent",
+          "samples": []
         }
       ],
       "types": [
         {
+          "name": "LIST_OF_AUTHORS",
           "values": [
             {
               "name": {
@@ -916,10 +932,39 @@
                 "value": "Zhuangzi"
               }
             }
-          ],
-          "name": "LIST_OF_AUTHORS"
+          ]
         }
       ]
-    }
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "AuthorQuoteIntent",
+          "confirmationRequired": false,
+          "slots": [
+            {
+              "name": "Author",
+              "type": "LIST_OF_AUTHORS",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.Author"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.Author",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Welcher Autor?"
+          }
+        ]
+      }
+    ]
   }
 }

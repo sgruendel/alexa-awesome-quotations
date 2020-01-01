@@ -16,10 +16,14 @@
           "slots": [
             {
               "name": "Author",
-              "type": "LIST_OF_AUTHORS"
+              "type": "LIST_OF_AUTHORS",
+              "samples": [
+                "{Author}"
+              ]
             }
           ],
           "samples": [
+            "{Author}",
             "give me a quote by {Author}",
             "give me a quote from {Author}",
             "for a quote by {Author}",
@@ -33,13 +37,16 @@
           ]
         },
         {
-          "name": "AMAZON.HelpIntent"
+          "name": "AMAZON.HelpIntent",
+          "samples": []
         },
         {
-          "name": "AMAZON.StopIntent"
+          "name": "AMAZON.StopIntent",
+          "samples": []
         },
         {
-          "name": "AMAZON.CancelIntent"
+          "name": "AMAZON.CancelIntent",
+          "samples": []
         }
       ],
       "types": [
@@ -1859,6 +1866,36 @@
           ]
         }
       ]
-    }
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "AuthorQuoteIntent",
+          "confirmationRequired": false,
+          "slots": [
+            {
+              "name": "Author",
+              "type": "LIST_OF_AUTHORS",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.Author"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.Author",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Which author?"
+          }
+        ]
+      }
+    ]
   }
 }

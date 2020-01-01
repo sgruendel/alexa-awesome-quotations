@@ -5,6 +5,8 @@ const i18n = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 const dashbot = process.env.DASHBOT_API_KEY ? require('dashbot')(process.env.DASHBOT_API_KEY).alexa : undefined;
 
+const utils = require('./utils');
+
 const SKILL_ID = 'amzn1.ask.skill.0b9d09d1-e37f-4753-8e50-e8adbfd6aeeb';
 
 const authors_de = require('./authors_de.json');
@@ -88,7 +90,7 @@ const RandomQuoteIntentHandler = {
         const request = handlerInput.requestEnvelope.request;
         return request.type === 'IntentRequest' && request.intent.name === 'RandomQuoteIntent';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
         const locale = handlerInput.requestEnvelope.request.locale;
 
@@ -99,7 +101,7 @@ const RandomQuoteIntentHandler = {
         console.log('using random author', quotedAuthor);
         const randomQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
 
-        const speechOutput = requestAttributes.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + randomQuote;
+        const speechOutput = requestAttributes.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + await utils.voicifyQuote(locale, quotedAuthor, randomQuote);
         return handlerInput.responseBuilder
             .speak(speechOutput)
             .withStandardCard(quotedAuthor, randomQuote)
@@ -112,7 +114,7 @@ const AuthorQuoteIntentHandler = {
         const request = handlerInput.requestEnvelope.request;
         return request.type === 'IntentRequest' && request.intent.name === 'AuthorQuoteIntent';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
         const locale = handlerInput.requestEnvelope.request.locale;
 
@@ -153,13 +155,15 @@ const AuthorQuoteIntentHandler = {
         // Create speech output
         var speechOutput;
         if (quotedAuthor) {
-            speechOutput = requestAttributes.t('AUTHOR_QUOTE_MESSAGE') + quotedAuthor + ': ' + authorQuote;
+            speechOutput = requestAttributes.t('AUTHOR_QUOTE_MESSAGE') + quotedAuthor + ': '
+                + await utils.voicifyQuote(locale, quotedAuthor, authorQuote);
         } else {
             const i = Math.floor(Math.random() * quotes.length);
             quotedAuthor = authors[i];
             console.log('using random author', quotedAuthor);
             authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
-            speechOutput = requestAttributes.t('AUTHOR_NOT_FOUND') + requestAttributes.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + authorQuote;
+            speechOutput = requestAttributes.t('AUTHOR_NOT_FOUND') + requestAttributes.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': '
+                + await utils.voicifyQuote(locale, quotedAuthor, authorQuote);
         }
 
         return handlerInput.responseBuilder

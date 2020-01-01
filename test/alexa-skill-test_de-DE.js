@@ -24,7 +24,59 @@ describe('Schöne Sprüche Skill', () => {
         ]);
     });
 
+    describe('HelpIntent', () => {
+        alexaTest.test([
+            {
+                request: alexaTest.getIntentRequest('AMAZON.HelpIntent'),
+                saysLike: 'Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Zitiere',
+                reprompts: 'Was soll ich tun?',
+                shouldEndSession: false,
+            },
+        ]);
+    });
+
+    describe('CancelIntent', () => {
+        alexaTest.test([
+            {
+                request: alexaTest.getIntentRequest('AMAZON.CancelIntent'),
+                says: '<say-as interpret-as="interjection">bis dann</say-as>.',
+                repromptsNothing: true, shouldEndSession: true,
+            },
+        ]);
+    });
+
+    describe('StopIntent', () => {
+        alexaTest.test([
+            {
+                request: alexaTest.getIntentRequest('AMAZON.StopIntent'),
+                says: '<say-as interpret-as="interjection">bis dann</say-as>.',
+                repromptsNothing: true, shouldEndSession: true,
+            },
+        ]);
+    });
+
+    describe('SessionEndedRequest', () => {
+        alexaTest.test([
+            {
+                request: alexaTest.getSessionEndedRequest(),
+                saysNothing: true, repromptsNothing: true, shouldEndSession: true,
+            },
+        ]);
+    });
+
+    describe('ErrorHandler', () => {
+        alexaTest.test([
+            {
+                request: alexaTest.getIntentRequest(''),
+                says: "Sorry, I can't understand the command. Please say again?",
+                reprompts: "Sorry, I can't understand the command. Please say again?",
+                shouldEndSession: false,
+            },
+        ]);
+    });
+
     describe('RandomQuoteIntent', () => {
+        alexaTest.setExtraFeature('questionMarkCheck', false); // quotations may end with question marks
         alexaTest.test([
             {
                 request: alexaTest.getIntentRequest('RandomQuoteIntent'),
@@ -34,10 +86,33 @@ describe('Schöne Sprüche Skill', () => {
                 repromptsNothing: true, shouldEndSession: true,
             },
         ]);
+        alexaTest.setExtraFeature('questionMarkCheck', true);
     });
 
     describe('AuthorQuoteIntent', () => {
+        alexaTest.setExtraFeature('questionMarkCheck', false); // quotations may end with question marks
         alexaTest.test([
+            {
+                request: alexaTest.getIntentRequest('AuthorQuoteIntent', { Author: 'goethe' }),
+                saysLike: 'Hier ist dein Zitat von Johann Wolfgang von Goethe: ',
+                hasCardTitle: 'Johann Wolfgang von Goethe',
+                //TODO hasCardTextLike: 'Zitat',
+                repromptsNothing: true, shouldEndSession: true,
+            },
+            {
+                request: alexaTest.getIntentRequest('AuthorQuoteIntent', { Author: 'loriot' }),
+                saysLike: 'Hier ist dein Zitat von Loriot: ',
+                hasCardTitle: 'Loriot',
+                //TODO hasCardTextLike: 'Zitat',
+                repromptsNothing: true, shouldEndSession: true,
+            },
+            {
+                request: alexaTest.getIntentRequest('AuthorQuoteIntent', { Author: 'hermann hesse' }),
+                saysLike: 'Hier ist dein Zitat von Hermann Hesse: ',
+                hasCardTitle: 'Hermann Hesse',
+                //TODO hasCardTextLike: 'Zitat',
+                repromptsNothing: true, shouldEndSession: true,
+            },
             {
                 request: alexaTest.getIntentRequest('AuthorQuoteIntent', { Author: 'jean paul sartre' }),
                 saysLike: 'Hier ist dein Zitat von Jean-Paul Sartre: ',
@@ -88,56 +163,6 @@ describe('Schöne Sprüche Skill', () => {
                 repromptsNothing: true, shouldEndSession: true,
             },
         ]);
-    });
-
-    describe('HelpIntent', () => {
-        alexaTest.test([
-            {
-                request: alexaTest.getIntentRequest('AMAZON.HelpIntent'),
-                saysLike: 'Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Zitiere',
-                reprompts: 'Was soll ich tun?',
-                shouldEndSession: false,
-            },
-        ]);
-    });
-
-    describe('CancelIntent', () => {
-        alexaTest.test([
-            {
-                request: alexaTest.getIntentRequest('AMAZON.CancelIntent'),
-                says: '<say-as interpret-as="interjection">bis dann</say-as>.',
-                repromptsNothing: true, shouldEndSession: true,
-            },
-        ]);
-    });
-
-    describe('StopIntent', () => {
-        alexaTest.test([
-            {
-                request: alexaTest.getIntentRequest('AMAZON.StopIntent'),
-                says: '<say-as interpret-as="interjection">bis dann</say-as>.',
-                repromptsNothing: true, shouldEndSession: true,
-            },
-        ]);
-    });
-
-    describe('SessionEndedRequest', () => {
-        alexaTest.test([
-            {
-                request: alexaTest.getSessionEndedRequest(),
-                saysNothing: true, repromptsNothing: true, shouldEndSession: true,
-            },
-        ]);
-    });
-
-    describe('ErrorHandler', () => {
-        alexaTest.test([
-            {
-                request: alexaTest.getIntentRequest(''),
-                says: "Sorry, I can't understand the command. Please say again?",
-                reprompts: "Sorry, I can't understand the command. Please say again?",
-                shouldEndSession: false,
-            },
-        ]);
+        alexaTest.setExtraFeature('questionMarkCheck', true);
     });
 });
