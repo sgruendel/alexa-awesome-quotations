@@ -92,7 +92,7 @@ const RandomQuoteIntentHandler = {
     },
     async handle(handlerInput) {
         const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
-        const locale = handlerInput.requestEnvelope.request.locale;
+        const locale = Alexa.getLocale(handlerInput.requestEnvelope);
 
         console.log('getting quotes');
         const quotes = getTranslationArray('QUOTES', locale);
@@ -116,7 +116,7 @@ const AuthorQuoteIntentHandler = {
     },
     async handle(handlerInput) {
         const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
-        const locale = handlerInput.requestEnvelope.request.locale;
+        const locale = Alexa.getLocale(handlerInput.requestEnvelope);
 
         const authors = getTranslationArray('AUTHORS', locale);
         const authorsNormalized = getTranslationArray('AUTHORS_NORMALIZED', locale);
@@ -234,7 +234,7 @@ const ErrorHandler = {
 const LocalizationInterceptor = {
     process(handlerInput) {
         i18next.use(sprintf).init({
-            lng: handlerInput.requestEnvelope.request.locale,
+            lng: Alexa.getLocale(handlerInput.requestEnvelope),
             overloadTranslationOptionHandler: sprintf.overloadTranslationOptionHandler,
             resources: languageStrings,
             returnObjects: true,
