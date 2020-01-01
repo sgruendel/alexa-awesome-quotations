@@ -6,9 +6,9 @@
         {
           "name": "RandomQuoteIntent",
           "samples": [
-            "for a quote",
-            "for any quote",
-            "to give me a quote"
+            "a quote",
+            "any quote",
+            "give me a quote"
           ]
         },
         {
@@ -24,16 +24,25 @@
           ],
           "samples": [
             "{Author}",
+            "a quote by {Author}",
+            "a quote from {Author}",
+            "something by {Author}",
+            "something from {Author}",
+            "quote {Author}",
             "give me a quote by {Author}",
             "give me a quote from {Author}",
+            "tell me a quote by {Author}",
+            "tell me a quote from {Author}",
+            "for {Author}",
             "for a quote by {Author}",
             "for a quote from {Author}",
             "for something by {Author}",
             "for something from {Author}",
-            "to tell me a quote by {Author}",
-            "to tell me a quote from {Author}",
             "to quote {Author}",
-            "for {Author}"
+            "to give me a quote by {Author}",
+            "to give me a quote from {Author}",
+            "to tell me a quote by {Author}",
+            "to tell me a quote from {Author}"
           ]
         },
         {
