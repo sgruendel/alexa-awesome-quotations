@@ -11,8 +11,9 @@ alexaTest.initialize(
     'amzn1.ask.skill.0b9d09d1-e37f-4753-8e50-e8adbfd6aeeb',
     USER_ID);
 alexaTest.setLocale('en-IN');
+alexaTest.setExtraFeature('questionMarkCheck', false); // quotations may end with question marks
 
-describe('Awesome Quotations Skill', () => {
+describe('Awesome Quotations Skill (en-IN)', () => {
     describe('LaunchRequest', () => {
         alexaTest.test([
             {
@@ -25,7 +26,6 @@ describe('Awesome Quotations Skill', () => {
     });
 
     describe('RandomQuoteIntent', () => {
-        alexaTest.setExtraFeature('questionMarkCheck', false); // quotations may end with question marks
         alexaTest.test([
             {
                 request: alexaTest.getIntentRequest('RandomQuoteIntent'),
@@ -35,11 +35,9 @@ describe('Awesome Quotations Skill', () => {
                 repromptsNothing: true, shouldEndSession: true,
             },
         ]);
-        alexaTest.setExtraFeature('questionMarkCheck', true);
     });
 
     describe('AuthorQuoteIntent', () => {
-        alexaTest.setExtraFeature('questionMarkCheck', false); // quotations may end with question marks
         alexaTest.test([
             {
                 request: alexaTest.getIntentRequest('AuthorQuoteIntent', { Author: 'gandhi' }),
@@ -111,7 +109,6 @@ describe('Awesome Quotations Skill', () => {
                 repromptsNothing: true, shouldEndSession: true,
             },
         ]);
-        alexaTest.setExtraFeature('questionMarkCheck', true);
     });
 
     describe('HelpIntent', () => {

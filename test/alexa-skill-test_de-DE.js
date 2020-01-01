@@ -11,8 +11,9 @@ alexaTest.initialize(
     'amzn1.ask.skill.0b9d09d1-e37f-4753-8e50-e8adbfd6aeeb',
     USER_ID);
 alexaTest.setLocale('de-DE');
+alexaTest.setExtraFeature('questionMarkCheck', false); // quotations may end with question marks
 
-describe('Schöne Sprüche Skill', () => {
+describe('Awesome Quotations Skill (de-DE)', () => {
     describe('LaunchRequest', () => {
         alexaTest.test([
             {
@@ -76,7 +77,6 @@ describe('Schöne Sprüche Skill', () => {
     });
 
     describe('RandomQuoteIntent', () => {
-        alexaTest.setExtraFeature('questionMarkCheck', false); // quotations may end with question marks
         alexaTest.test([
             {
                 request: alexaTest.getIntentRequest('RandomQuoteIntent'),
@@ -86,11 +86,9 @@ describe('Schöne Sprüche Skill', () => {
                 repromptsNothing: true, shouldEndSession: true,
             },
         ]);
-        alexaTest.setExtraFeature('questionMarkCheck', true);
     });
 
     describe('AuthorQuoteIntent', () => {
-        alexaTest.setExtraFeature('questionMarkCheck', false); // quotations may end with question marks
         alexaTest.test([
             {
                 request: alexaTest.getIntentRequest('AuthorQuoteIntent', { Author: 'goethe' }),
@@ -163,6 +161,5 @@ describe('Schöne Sprüche Skill', () => {
                 repromptsNothing: true, shouldEndSession: true,
             },
         ]);
-        alexaTest.setExtraFeature('questionMarkCheck', true);
     });
 });
