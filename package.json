@@ -25,7 +25,7 @@
   "dependencies": {
     "ask-sdk-core": "^2.7.0",
     "ask-sdk-model": "^1.25.1",
-    "dashbot": "^10.4.5",
+    "dashbot": "^11.1.0",
     "dynamodb": "^1.1.2",
     "i18next": "^19.0.2",
     "i18next-sprintf-postprocessor": "^0.2.2",
