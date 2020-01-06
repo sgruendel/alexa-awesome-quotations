@@ -4,6 +4,17 @@ const Alexa = require('ask-sdk-core');
 const i18next = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 const dashbot = process.env.DASHBOT_API_KEY ? require('dashbot')(process.env.DASHBOT_API_KEY).alexa : undefined;
+const winston = require('winston');
+
+const logger = winston.createLogger({
+    level: process.env.LOG_LEVEL || 'info',
+    transports: [
+        new winston.transports.Console({
+            format: winston.format.simple(),
+        }),
+    ],
+    exitOnError: false,
+});
 
 const utils = require('./utils');
 
@@ -60,6 +71,7 @@ const languageStrings = {
             HELP_MESSAGE: 'You can say „Give me a quotation“, or you can say „Quote %s“, or you can say „Exit“. What can I help you with?',
             HELP_REPROMPT: 'What can I help you with?',
             STOP_MESSAGE: 'See you soon!',
+            NOT_UNDERSTOOD_MESSAGE: 'Sorry, I don\'t understand. Please say again?',
         },
     },
     de: {
@@ -73,6 +85,7 @@ const languageStrings = {
             HELP_MESSAGE: 'Du kannst sagen „Gib mir irgendein Zitat“, oder du kannst sagen „Zitiere %s“, oder du kannst „Beenden“ sagen. Was soll ich tun?',
             HELP_REPROMPT: 'Was soll ich tun?',
             STOP_MESSAGE: '<say-as interpret-as="interjection">bis dann</say-as>.',
+            NOT_UNDERSTOOD_MESSAGE: 'Entschuldigung, das verstehe ich nicht. Bitte wiederhole das?',
         },
     },
 };
@@ -87,18 +100,20 @@ function getTranslationArray(key, locale) {
 
 const RandomQuoteIntentHandler = {
     canHandle(handlerInput) {
-        const request = handlerInput.requestEnvelope.request;
+        const { request } = handlerInput.requestEnvelope;
         return request.type === 'IntentRequest' && request.intent.name === 'RandomQuoteIntent';
     },
     async handle(handlerInput) {
+        const { request } = handlerInput.requestEnvelope;
+        logger.debug('request', request);
+
         const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
         const locale = Alexa.getLocale(handlerInput.requestEnvelope);
 
-        console.log('getting quotes');
         const quotes = getTranslationArray('QUOTES', locale);
         const i = Math.floor(Math.random() * quotes.length);
         const quotedAuthor = getTranslationArray('AUTHORS', locale)[i];
-        console.log('using random author', quotedAuthor);
+        logger.info('using random author', quotedAuthor);
         const randomQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
 
         const speechOutput = requestAttributes.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + await utils.voicifyQuote(locale, quotedAuthor, randomQuote);
@@ -111,10 +126,13 @@ const RandomQuoteIntentHandler = {
 
 const AuthorQuoteIntentHandler = {
     canHandle(handlerInput) {
-        const request = handlerInput.requestEnvelope.request;
+        const { request } = handlerInput.requestEnvelope;
         return request.type === 'IntentRequest' && request.intent.name === 'AuthorQuoteIntent';
     },
     async handle(handlerInput) {
+        const { request } = handlerInput.requestEnvelope;
+        logger.debug('request', request);
+
         const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
         const locale = Alexa.getLocale(handlerInput.requestEnvelope);
 
@@ -128,10 +146,10 @@ const AuthorQuoteIntentHandler = {
         if (authorSlot && authorSlot.value) {
             const author = authorSlot.value.toLowerCase();
 
-            console.log('searching for author', author);
+            logger.debug('searching for author', author);
             for (var i = 0; i < authors.length; i++) {
                 if (authorsNormalized[i] === author) {
-                    console.log('found exact match', authors[i], 'with', quotes[i].length, 'quotes');
+                    logger.info('found exact match', authors[i], 'with', quotes[i].length, 'quotes');
                     quotedAuthor = authors[i];
                     authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
                 }
@@ -139,17 +157,17 @@ const AuthorQuoteIntentHandler = {
             if (!authorQuote) {
                 for (i = 0; i < authors.length; i++) {
                     if (authorsNormalized[i].includes(author)) {
-                        console.log('found partial match', authors[i], 'with', quotes[i].length, 'quotes');
+                        logger.info('found partial match', authors[i], 'with', quotes[i].length, 'quotes');
                         quotedAuthor = authors[i];
                         authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
                     }
                 }
             }
             if (!quotedAuthor) {
-                console.error('author not found', author);
+                logger.error('author not found', author);
             }
         } else {
-            console.error('No slot value given for author');
+            logger.error('No slot value given for author');
         }
 
         // Create speech output
@@ -160,7 +178,7 @@ const AuthorQuoteIntentHandler = {
         } else {
             const i = Math.floor(Math.random() * quotes.length);
             quotedAuthor = authors[i];
-            console.log('using random author', quotedAuthor);
+            logger.info('using random author', quotedAuthor);
             authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
             speechOutput = requestAttributes.t('AUTHOR_NOT_FOUND') + requestAttributes.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': '
                 + await utils.voicifyQuote(locale, quotedAuthor, authorQuote);
@@ -175,13 +193,15 @@ const AuthorQuoteIntentHandler = {
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
-        const request = handlerInput.requestEnvelope.request;
+        const { request } = handlerInput.requestEnvelope;
         return request.type === 'LaunchRequest'
             || (request.type === 'IntentRequest' && request.intent.name === 'AMAZON.HelpIntent');
     },
     handle(handlerInput) {
-        const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
+        const { request } = handlerInput.requestEnvelope;
+        logger.debug('request', request);
 
+        const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
         const authors = requestAttributes.t('AUTHORS');
         const i = Math.floor(Math.random() * authors.length);
         const speechOutput = requestAttributes.t('HELP_MESSAGE', authors[i]);
@@ -195,11 +215,14 @@ const HelpIntentHandler = {
 
 const CancelAndStopIntentHandler = {
     canHandle(handlerInput) {
-        const request = handlerInput.requestEnvelope.request;
+        const { request } = handlerInput.requestEnvelope;
         return request.type === 'IntentRequest'
             && (request.intent.name === 'AMAZON.CancelIntent' || request.intent.name === 'AMAZON.StopIntent');
     },
     handle(handlerInput) {
+        const { request } = handlerInput.requestEnvelope;
+        logger.debug('request', request);
+
         const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
         const speechOutput = requestAttributes.t('STOP_MESSAGE');
         return handlerInput.responseBuilder
@@ -213,7 +236,16 @@ const SessionEndedRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
     },
     handle(handlerInput) {
-        console.log('Session ended with reason:', handlerInput.requestEnvelope.request.reason);
+        const { request } = handlerInput.requestEnvelope;
+        try {
+            if (request.reason === 'ERROR') {
+                logger.error(request.error.type + ': ' + request.error.message);
+            }
+        } catch (err) {
+            logger.error(err.stack || err.toString(), request);
+        }
+
+        logger.debug('session ended', request);
         return handlerInput.responseBuilder.getResponse();
     },
 };
@@ -223,10 +255,12 @@ const ErrorHandler = {
         return true;
     },
     handle(handlerInput, error) {
-        console.error('Error handled:', error);
+        logger.error(error.stack || error.toString(), handlerInput.requestEnvelope.request);
+        const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
+        const speechOutput = requestAttributes.t('NOT_UNDERSTOOD_MESSAGE');
         return handlerInput.responseBuilder
-            .speak('Sorry, I can\'t understand the command. Please say again?')
-            .reprompt('Sorry, I can\'t understand the command. Please say again?')
+            .speak(speechOutput)
+            .reprompt(speechOutput)
             .getResponse();
     },
 };

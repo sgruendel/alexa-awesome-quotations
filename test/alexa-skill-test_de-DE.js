@@ -69,8 +69,8 @@ describe('Awesome Quotations Skill (de-DE)', () => {
         alexaTest.test([
             {
                 request: alexaTest.getIntentRequest(''),
-                says: "Sorry, I can't understand the command. Please say again?",
-                reprompts: "Sorry, I can't understand the command. Please say again?",
+                says: 'Entschuldigung, das verstehe ich nicht. Bitte wiederhole das?',
+                reprompts: 'Entschuldigung, das verstehe ich nicht. Bitte wiederhole das?',
                 shouldEndSession: false,
             },
         ]);

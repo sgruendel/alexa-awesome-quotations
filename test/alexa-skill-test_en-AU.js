@@ -149,8 +149,8 @@ describe('Awesome Quotations Skill (en-AU)', () => {
         alexaTest.test([
             {
                 request: alexaTest.getIntentRequest(''),
-                says: "Sorry, I can't understand the command. Please say again?",
-                reprompts: "Sorry, I can't understand the command. Please say again?",
+                says: "Sorry, I don't understand. Please say again?",
+                reprompts: "Sorry, I don't understand. Please say again?",
                 shouldEndSession: false,
             },
         ]);
