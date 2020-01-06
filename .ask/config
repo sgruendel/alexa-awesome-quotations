@@ -3,52 +3,45 @@
     "default": {
       "skill_id": "amzn1.ask.skill.0b9d09d1-e37f-4753-8e50-e8adbfd6aeeb",
       "was_cloned": false,
+      "merge": {},
       "resources": {
         "manifest": {
-          "eTag": "2dfbeafc5cc138bfe33d6ae6d675268a"
+          "eTag": "62689152ed47f5d07b5af97776052500"
         },
         "interactionModel": {
           "de-DE": {
-            "eTag": "25dafefabafb00e7951b4853679eaa48"
+            "eTag": "990af3ee6aacbd0227dfaeba7b822fee"
           },
           "en-US": {
-            "eTag": "bf15406b5318e57d18279e9cf694708c"
+            "eTag": "7275fbf0859af4a921784f122b370406"
           },
           "en-CA": {
-            "eTag": "bf15406b5318e57d18279e9cf694708c"
+            "eTag": "3bf726277a118e3c15ea7b5f14728973"
           },
           "en-IN": {
-            "eTag": "bf15406b5318e57d18279e9cf694708c"
+            "eTag": "14dde3f5cd470b4420ef9b0cf83b114d"
           },
           "en-AU": {
-            "eTag": "bf15406b5318e57d18279e9cf694708c"
+            "eTag": "5c3df5ab2d81c1a33289b4dfcf78b8a2"
           },
           "en-GB": {
-            "eTag": "bf15406b5318e57d18279e9cf694708c"
+            "eTag": "7d5dfc4711f5dc011f569db57348ddc4"
           }
         },
         "lambda": [
           {
-            "arn": "arn:aws:lambda:eu-west-1:467353799488:function:awesomeQuotations",
+            "arn": "arn:aws:lambda:eu-west-1:467353799488:function:awesomeQuotations:7",
             "awsRegion": "eu-west-1",
             "functionName": "awesomeQuotations",
             "alexaUsage": [
               "custom/default"
             ],
-            "revisionId": "2fc3c10f-1bf1-4de0-8226-bc3060d29ca0"
+            "revisionId": "11fd9c20-d80c-413e-93da-38b374663110",
+            "codeUri": "src",
+            "handler": "index.handler",
+            "runtime": "nodejs12.x"
           }
         ]
-      },
-      "merge": {
-        "manifest": {
-          "apis": {
-            "custom": {
-              "endpoint": {
-                "uri": "arn:aws:lambda:eu-west-1:467353799488:function:awesomeQuotations"
-              }
-            }
-          }
-        }
       }
     }
   }

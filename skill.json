@@ -1,5 +1,23 @@
 {
   "manifest": {
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:eu-west-1:467353799488:function:awesomeQuotations:7",
+          "sourceDir": "./src"
+        },
+        "interfaces": []
+      }
+    },
+    "manifestVersion": "1.0",
+    "permissions": [],
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "isChildDirected": false,
+      "usesPersonalInfo": false
+    },
     "publishingInformation": {
       "locales": {
         "de-DE": {
@@ -20,7 +38,8 @@
           "name": "Schöne Sprüche",
           "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/06f54165f11346f696e3baa049135e32/APP_ICON?versionId=NyJ61dSffx4t1Dn0_ujvkdDOE.jrNhjt&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=PzqA9z7HYHjYL%2F4Jp0VVbH4STG8%3D",
           "description": "Alexa gibt ein zufällig ausgewähltes Zitat von irgendeinem Autor wieder, oder ein zufällig ausgewähltes Zitat von einem bestimmten Autor.\n\nEntdecken Sie über 100 Autoren und über 3000 Zitate und lassen Sie sich von Alexa inspirieren!\n\nSagen Sie \"Alexa, öffne Schöne Sprüche\" und erfahren Sie nach und nach, welche Autoren Alexa kennt. Es reicht, dabei den Nachnamen des Autors zu nennen.",
-          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/6b8112cf57864638b47b71137b20a915/APP_ICON_LARGE?versionId=TV0A8qqLhZNf4WKikm9I5LXdq0VnaIZ0&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=d6XdStJfKIX4nRfq%2F1P0gHksIFY%3D"
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/6b8112cf57864638b47b71137b20a915/APP_ICON_LARGE?versionId=TV0A8qqLhZNf4WKikm9I5LXdq0VnaIZ0&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=d6XdStJfKIX4nRfq%2F1P0gHksIFY%3D",
+          "updatesDescription": "Verwendet jetzt andere Stimme für Zitate."
         },
         "en-US": {
           "summary": "Awesome quotations by Lincoln, Twain, Muhammad Ali and many more",
@@ -40,7 +59,8 @@
           "name": "Awesome Quotations",
           "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/e0e75a7f01ab416faffdbe7bbfc41fe7/APP_ICON?versionId=h.VpMFWWtoXZNBM88wOO5qJZJ6dT1zqs&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=MHFfL34n1O9o9LHhWxBIHxxlPzs%3D",
           "description": "Alexa quotes a random author, or gives a random quotation from a specific author.\n\nDiscover more than 280 authors and more than 8000 quotations and let Alexa inspire you!\n\nSay \"Alexa, start awesome quotations\" to learn about the authors Alexa knows. You only need to give the author's last name.",
-          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/f02ea6d0e9154a50825c5dd683e7c94c/APP_ICON_LARGE?versionId=bmH4pDF8x.3LdOxRpu7pxEhK.u3KXpJQ&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=ecxLB26NWw2ZkICJrMvam8515H0%3D"
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/f02ea6d0e9154a50825c5dd683e7c94c/APP_ICON_LARGE?versionId=bmH4pDF8x.3LdOxRpu7pxEhK.u3KXpJQ&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=ecxLB26NWw2ZkICJrMvam8515H0%3D",
+          "updatesDescription": "Now using different voice for quotations."
         },
         "en-CA": {
           "summary": "Awesome quotations by Hemingway, Shakespeare, Leonard Cohen and many more",
@@ -60,7 +80,8 @@
           "name": "Awesome Quotations",
           "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/e0e75a7f01ab416faffdbe7bbfc41fe7/APP_ICON?versionId=h.VpMFWWtoXZNBM88wOO5qJZJ6dT1zqs&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=MHFfL34n1O9o9LHhWxBIHxxlPzs%3D",
           "description": "Alexa quotes a random author, or gives a random quotation from a specific author.\n\nDiscover more than 280 authors and more than 8000 quotations and let Alexa inspire you!\n\nSay \"Alexa, start awesome quotations\" to learn about the authors Alexa knows. You only need to give the author's last name.",
-          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/f02ea6d0e9154a50825c5dd683e7c94c/APP_ICON_LARGE?versionId=bmH4pDF8x.3LdOxRpu7pxEhK.u3KXpJQ&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=ecxLB26NWw2ZkICJrMvam8515H0%3D"
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/f02ea6d0e9154a50825c5dd683e7c94c/APP_ICON_LARGE?versionId=bmH4pDF8x.3LdOxRpu7pxEhK.u3KXpJQ&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=ecxLB26NWw2ZkICJrMvam8515H0%3D",
+          "updatesDescription": "Now using different voice for quotations."
         },
         "en-IN": {
           "summary": "Awesome quotations by Gandhi, Yogananda, A. P. J. Abdul Kalam and many more",
@@ -80,7 +101,8 @@
           "name": "Awesome Quotations",
           "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/e0e75a7f01ab416faffdbe7bbfc41fe7/APP_ICON?versionId=h.VpMFWWtoXZNBM88wOO5qJZJ6dT1zqs&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=MHFfL34n1O9o9LHhWxBIHxxlPzs%3D",
           "description": "Alexa quotes a random author, or gives a random quotation from a specific author.\n\nDiscover more than 280 authors and more than 8000 quotations and let Alexa inspire you!\n\nSay \"Alexa, start awesome quotations\" to learn about the authors Alexa knows. You only need to give the author's last name.",
-          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/f02ea6d0e9154a50825c5dd683e7c94c/APP_ICON_LARGE?versionId=bmH4pDF8x.3LdOxRpu7pxEhK.u3KXpJQ&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=ecxLB26NWw2ZkICJrMvam8515H0%3D"
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/f02ea6d0e9154a50825c5dd683e7c94c/APP_ICON_LARGE?versionId=bmH4pDF8x.3LdOxRpu7pxEhK.u3KXpJQ&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=ecxLB26NWw2ZkICJrMvam8515H0%3D",
+          "updatesDescription": "Now using different voice for quotations."
         },
         "en-AU": {
           "summary": "Awesome quotations by Hemingway, Shakespeare, Heath Ledger and many more",
@@ -100,7 +122,8 @@
           "name": "Awesome Quotations",
           "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/e0e75a7f01ab416faffdbe7bbfc41fe7/APP_ICON?versionId=h.VpMFWWtoXZNBM88wOO5qJZJ6dT1zqs&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=MHFfL34n1O9o9LHhWxBIHxxlPzs%3D",
           "description": "Alexa quotes a random author, or gives a random quotation from a specific author.\n\nDiscover more than 280 authors and more than 8000 quotations and let Alexa inspire you!\n\nSay \"Alexa, start awesome quotations\" to learn about the authors Alexa knows. You only need to give the author's last name.",
-          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/f02ea6d0e9154a50825c5dd683e7c94c/APP_ICON_LARGE?versionId=bmH4pDF8x.3LdOxRpu7pxEhK.u3KXpJQ&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=ecxLB26NWw2ZkICJrMvam8515H0%3D"
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/f02ea6d0e9154a50825c5dd683e7c94c/APP_ICON_LARGE?versionId=bmH4pDF8x.3LdOxRpu7pxEhK.u3KXpJQ&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=ecxLB26NWw2ZkICJrMvam8515H0%3D",
+          "updatesDescription": "Now using different voice for quotations."
         },
         "en-GB": {
           "summary": "Awesome quotations by Shakespeare, Churchill, J. K. Rowling and many more",
@@ -120,30 +143,14 @@
           "name": "Awesome Quotations",
           "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/70ee2911c37c4b0aa5e10ecdd9aa4224/APP_ICON?versionId=dZUy1vTL5sYS9BoHU0bzNTXn8gEhDYXl&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=93RsxfWvEQQKohrHiYaj7QFuhOs%3D",
           "description": "Alexa quotes a random author, or gives a random quotation from a specific author.\n\nDiscover more than 280 authors and more than 8000 quotations and let Alexa inspire you!\n\nSay \"Alexa, start awesome quotations\" to learn about the authors Alexa knows. You only need to give the author's last name.",
-          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/479ba5bf4c1a4de1b32c4b02ab50dae6/APP_ICON_LARGE?versionId=m9arZ4g3bW7uWOsxmbuVD3NZcHWnxK_6&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=7PfSRTWNaXKj9eZM5dpfnXOJq3s%3D"
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/479ba5bf4c1a4de1b32c4b02ab50dae6/APP_ICON_LARGE?versionId=m9arZ4g3bW7uWOsxmbuVD3NZcHWnxK_6&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1540726576&Signature=7PfSRTWNaXKj9eZM5dpfnXOJq3s%3D",
+          "updatesDescription": "Now using different voice for quotations."
         }
       },
       "isAvailableWorldwide": true,
-      "testingInstructions": "Changes to previous version (Lambda function :5):\n* Recognize author \"J. K. Rowling\" who was not found previously for German language\n* no changes in English functionality",
+      "testingInstructions": "Changes to previous version (Lambda version 6):\n* Use male/female voice",
       "category": "KNOWLEDGE_AND_TRIVIA",
       "distributionCountries": []
-    },
-    "apis": {
-      "custom": {
-        "endpoint": {
-          "sourceDir": "./src"
-        },
-        "interfaces": []
-      }
-    },
-    "manifestVersion": "1.0",
-    "permissions": [],
-    "privacyAndCompliance": {
-      "allowsPurchases": false,
-      "isExportCompliant": true,
-      "containsAds": false,
-      "isChildDirected": false,
-      "usesPersonalInfo": false
     }
   }
 }
