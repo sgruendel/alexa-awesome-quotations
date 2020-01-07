@@ -1,5 +1,17 @@
 'use strict';
 
+const winston = require('winston');
+
+const logger = winston.createLogger({
+    level: process.env.LOG_LEVEL || 'info',
+    transports: [
+        new winston.transports.Console({
+            format: winston.format.simple(),
+        }),
+    ],
+    exitOnError: false,
+});
+
 const db = require('./db');
 
 const maleVoiceNames = {
@@ -72,17 +84,17 @@ function getRandomItem(arrayOfItems) {
 };
 
 exports.voicifyQuote = async function(locale, author, quote) {
-    var voiceName = getRandomItem(maleVoiceNames[locale]); // Default voice, most quotes are from males.
-    var voiceLang;
+    let voiceName = getRandomItem(maleVoiceNames[locale]); // Default voice, most quotes are from males.
+    let voiceLang;
     try {
-        var authorModel = await db.get(author);
+        let authorModel = await db.get(author);
         if (authorModel) {
             const authorLocale = authorModel.get('locale');
             const authorLocaleSplit = authorLocale.split('-', 2);
             const authorLang = authorLocale !== '?' && authorLocaleSplit[0];
             if (locale.startsWith(authorLang) && locale !== authorLocale) {
                 // <voice name="Brian"><lang xml:lang="en-GB">Your secret is safe with me!</lang></voice>
-                console.log('Using', author + "'s native locale", authorLocale, 'for speech output in', locale);
+                logger.debug('Using ' + author + "'s native locale " + authorLocale + ' for speech output in ' + locale);
                 voiceName = getRandomItem(authorModel.get('sex') === 'F' ? femaleVoiceNames[authorLocale] : maleVoiceNames[authorLocale]);
                 voiceLang = authorLocale;
             } else {
@@ -92,16 +104,16 @@ exports.voicifyQuote = async function(locale, author, quote) {
             }
         } else {
             authorModel = await db.create({ name: author, sex: '?', locale: '?' });
-            console.log('not in db yet, created', authorModel.attrs);
+            logger.debug('not in db yet, created', authorModel.attrs);
         }
     } catch (err) {
-        console.error('db error', err);
+        logger.error(err.stack || err.toString());
     }
 
     // No names for en-CA yet, no male names for en-IN.
     if (!voiceName) return quote;
 
-    var voicifiedQuote = '<voice name="' + voiceName + '">';
+    let voicifiedQuote = '<voice name="' + voiceName + '">';
     if (voiceLang) {
         voicifiedQuote += '<lang xml:lang="' + voiceLang + '">';
     }
