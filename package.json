@@ -1,6 +1,6 @@
 {
   "name": "alexa-awesome-quotations",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Alexa Skill for awesome quotations",
   "main": "index.js",
   "scripts": {
