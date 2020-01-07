@@ -113,7 +113,7 @@ const RandomQuoteIntentHandler = {
         const quotes = getTranslationArray('QUOTES', locale);
         const i = Math.floor(Math.random() * quotes.length);
         const quotedAuthor = getTranslationArray('AUTHORS', locale)[i];
-        logger.info('using random author', quotedAuthor);
+        logger.info('using random author ' + quotedAuthor);
         const randomQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
 
         const speechOutput = requestAttributes.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': ' + await utils.voicifyQuote(locale, quotedAuthor, randomQuote);
@@ -146,10 +146,10 @@ const AuthorQuoteIntentHandler = {
         if (authorSlot && authorSlot.value) {
             const author = authorSlot.value.toLowerCase();
 
-            logger.debug('searching for author', author);
+            logger.debug('searching for author ' + author);
             for (var i = 0; i < authors.length; i++) {
                 if (authorsNormalized[i] === author) {
-                    logger.info('found exact match', authors[i], 'with', quotes[i].length, 'quotes');
+                    logger.info('found exact match "' + authors[i] + '" with ' + quotes[i].length + ' quotes');
                     quotedAuthor = authors[i];
                     authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
                 }
@@ -157,14 +157,14 @@ const AuthorQuoteIntentHandler = {
             if (!authorQuote) {
                 for (i = 0; i < authors.length; i++) {
                     if (authorsNormalized[i].includes(author)) {
-                        logger.info('found partial match', authors[i], 'with', quotes[i].length, 'quotes');
+                        logger.info('found partial match "' + authors[i] + '" with ' + quotes[i].length + ' quotes');
                         quotedAuthor = authors[i];
                         authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
                     }
                 }
             }
             if (!quotedAuthor) {
-                logger.error('author not found', author);
+                logger.error('author not found: ' + author);
             }
         } else {
             logger.error('No slot value given for author');
@@ -178,7 +178,7 @@ const AuthorQuoteIntentHandler = {
         } else {
             const i = Math.floor(Math.random() * quotes.length);
             quotedAuthor = authors[i];
-            logger.info('using random author', quotedAuthor);
+            logger.info('using random author: ' + quotedAuthor);
             authorQuote = quotes[i][Math.floor(Math.random() * quotes[i].length)];
             speechOutput = requestAttributes.t('AUTHOR_NOT_FOUND') + requestAttributes.t('RANDOM_QUOTE_MESSAGE') + quotedAuthor + ': '
                 + await utils.voicifyQuote(locale, quotedAuthor, authorQuote);
