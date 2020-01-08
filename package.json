@@ -1,11 +1,11 @@
 {
   "name": "alexa-awesome-quotations",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Alexa Skill for awesome quotations",
   "main": "index.js",
   "scripts": {
     "invoke": "aws lambda invoke --function-name awesomeQuotations --payload fileb://test/events/alexa-start-session.json test/out.txt && cat test/out.txt",
-    "test": "nyc --reporter=lcov --reporter=text mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha --timeout 7000",
     "deploy-lambda": "npm prune --production && npm run lambda-zip && npm run lambda-update && npm install",
     "lambda-zip": "zip -x 'node_modules/.cache/*' -r index.zip node_modules && cd src && zip ../index.zip *",
     "lambda-update": "aws lambda update-function-code --function-name awesomeQuotations --zip-file fileb://index.zip",
