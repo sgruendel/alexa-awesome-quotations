@@ -3,7 +3,6 @@
 const Alexa = require('ask-sdk-core');
 const i18next = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
-const dashbot = process.env.DASHBOT_API_KEY ? require('dashbot')(process.env.DASHBOT_API_KEY).alexa : undefined;
 const winston = require('winston');
 
 const logger = winston.createLogger({
@@ -292,4 +291,3 @@ exports.handler = Alexa.SkillBuilders.custom()
     .addErrorHandlers(ErrorHandler)
     .withSkillId(SKILL_ID)
     .lambda();
-if (dashbot) exports.handler = dashbot.handler(exports.handler);
