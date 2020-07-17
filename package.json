@@ -28,7 +28,7 @@
     "dynamodb": "^1.1.2",
     "i18next": "^19.0.3",
     "i18next-sprintf-postprocessor": "^0.2.2",
-    "joi": "^14.0.4",
+    "joi": "^17.1.1",
     "winston": "^3.2.1"
   },
   "devDependencies": {
