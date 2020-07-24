@@ -23,12 +23,12 @@
   },
   "homepage": "https://github.com/sgruendel/alexa-awesome-quotations#readme",
   "dependencies": {
-    "ask-sdk-core": "2.8.0",
-    "ask-sdk-model": "1.28.0",
+    "ask-sdk-core": "2.9.0",
+    "ask-sdk-model": "1.29.0",
     "dynamodb": "1.2.1",
     "i18next": "19.6.2",
     "i18next-sprintf-postprocessor": "0.2.2",
-    "joi": "14.3.1",
+    "joi": "17.1.1",
     "winston": "3.3.3"
   },
   "devDependencies": {
