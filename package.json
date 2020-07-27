@@ -23,21 +23,21 @@
   },
   "homepage": "https://github.com/sgruendel/alexa-awesome-quotations#readme",
   "dependencies": {
-    "ask-sdk-core": "2.8.0",
-    "ask-sdk-model": "1.28.0",
-    "dynamodb": "1.2.1",
-    "i18next": "19.6.2",
-    "i18next-sprintf-postprocessor": "0.2.2",
+    "ask-sdk-core": "^2.9.0",
+    "ask-sdk-model": "^1.29.0",
+    "dynamodb": "^1.2.1",
+    "i18next": "^19.6.3",
+    "i18next-sprintf-postprocessor": "^0.2.2",
     "joi": "14.x",
-    "winston": "3.3.3"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
-    "alexa-skill-test-framework": "1.2.4",
-    "cheerio": "1.0.0-rc.3",
-    "eslint": "7.5.0",
-    "eslint-config-strongloop": "2.1.0",
-    "mocha": "8.0.1",
-    "nyc": "15.1.0"
+    "alexa-skill-test-framework": "^1.2.4",
+    "cheerio": "^1.0.0-rc.3",
+    "eslint": "^7.5.0",
+    "eslint-config-strongloop": "^2.1.0",
+    "mocha": "^8.0.1",
+    "nyc": "^15.1.0"
   },
   "eslintConfig": {
     "parserOptions": {
