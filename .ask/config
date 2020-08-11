@@ -6,7 +6,7 @@
       "merge": {},
       "resources": {
         "manifest": {
-          "eTag": "fc8eaf625b3ae16eaf95df68b68897d9"
+          "eTag": "18f9362e62cd3b70901f0a2d282f34e3"
         },
         "interactionModel": {
           "de-DE": {
@@ -30,7 +30,7 @@
         },
         "lambda": [
           {
-            "arn": "arn:aws:lambda:eu-west-1:467353799488:function:awesomeQuotations:9",
+            "arn": "arn:aws:lambda:eu-west-1:467353799488:function:awesomeQuotations:10",
             "awsRegion": "eu-west-1",
             "functionName": "awesomeQuotations",
             "alexaUsage": [
