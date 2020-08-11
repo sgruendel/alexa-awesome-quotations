@@ -90,7 +90,7 @@ const languageStrings = {
 };
 
 function getTranslationArray(key, locale) {
-    var translations = languageStrings[locale];
+    let translations = languageStrings[locale];
     if (!translations || !translations.translation[key]) {
         translations = languageStrings[locale.slice(0, 2)];
     }
@@ -141,12 +141,12 @@ const AuthorQuoteIntentHandler = {
 
         const slots = handlerInput.requestEnvelope.request.intent.slots;
         const authorSlot = slots.Author;
-        var quotedAuthor, authorQuote;
+        let quotedAuthor, authorQuote;
         if (authorSlot && authorSlot.value) {
             const author = authorSlot.value.toLowerCase();
 
             logger.debug('searching for author ' + author);
-            for (var i = 0; i < authors.length; i++) {
+            for (let i = 0; i < authors.length; i++) {
                 if (authorsNormalized[i] === author) {
                     logger.info('found exact match "' + authors[i] + '" with ' + quotes[i].length + ' quotes');
                     quotedAuthor = authors[i];
@@ -154,7 +154,7 @@ const AuthorQuoteIntentHandler = {
                 }
             }
             if (!authorQuote) {
-                for (i = 0; i < authors.length; i++) {
+                for (let i = 0; i < authors.length; i++) {
                     if (authorsNormalized[i].includes(author)) {
                         logger.info('found partial match "' + authors[i] + '" with ' + quotes[i].length + ' quotes');
                         quotedAuthor = authors[i];
@@ -170,7 +170,7 @@ const AuthorQuoteIntentHandler = {
         }
 
         // Create speech output
-        var speechOutput;
+        let speechOutput;
         if (quotedAuthor) {
             speechOutput = requestAttributes.t('AUTHOR_QUOTE_MESSAGE') + quotedAuthor + ': '
                 + await utils.voicifyQuote(locale, quotedAuthor, authorQuote);
