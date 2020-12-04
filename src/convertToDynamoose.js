@@ -1,5 +1,9 @@
 'use strict';
 
+// Convert from old db format created by module dynamodb to new format created by module dynamoose;
+// Main difference: field updatedAt is new, createdAt is now using epoch instead of TZ string
+// Only convert those entries that have se or locale set.
+
 const dynamoose = require('dynamoose');
 
 dynamoose.aws.sdk.config.update({ region: 'eu-west-1' });
