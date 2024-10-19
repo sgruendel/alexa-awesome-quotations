@@ -25,8 +25,8 @@
   "dependencies": {
     "ask-sdk-core": "^2.14.0",
     "ask-sdk-model": "^1.86.0",
-    "dynamoose": "^4.0.1",
-    "i18next": "^23.15.2",
+    "dynamoose": "^4.0.2",
+    "i18next": "^23.16.0",
     "i18next-sprintf-postprocessor": "^0.2.2",
     "winston": "^3.15.0"
   },
