@@ -26,14 +26,14 @@
     "ask-sdk-core": "^2.14.0",
     "ask-sdk-model": "^1.86.0",
     "dynamoose": "^4.0.2",
-    "i18next": "^24.1.0",
+    "i18next": "^24.1.2",
     "i18next-sprintf-postprocessor": "^0.2.2",
     "winston": "^3.17.0"
   },
   "devDependencies": {
     "alexa-skill-test-framework": "^1.2.4",
     "cheerio": "^1.0.0-rc.12",
-    "eslint": "^9.16.0",
+    "eslint": "^9.17.0",
     "eslint-config-strongloop": "^2.1.0",
     "mocha": "^11.0.1",
     "nyc": "^17.1.0"
