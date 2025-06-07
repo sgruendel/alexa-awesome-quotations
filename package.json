@@ -33,7 +33,7 @@
   "devDependencies": {
     "alexa-skill-test-framework": "^1.2.4",
     "cheerio": "^1.0.0-rc.12",
-    "eslint": "^9.27.0",
+    "eslint": "^9.28.0",
     "eslint-config-strongloop": "^2.1.0",
     "mocha": "^11.5.0",
     "nyc": "^17.1.0"
