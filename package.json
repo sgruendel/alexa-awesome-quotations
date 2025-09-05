@@ -35,7 +35,7 @@
     "cheerio": "^1.0.0-rc.12",
     "eslint": "^9.34.0",
     "eslint-config-strongloop": "^2.1.0",
-    "mocha": "^11.7.1",
+    "mocha": "^11.7.2",
     "nyc": "^17.1.0"
   },
   "eslintConfig": {
