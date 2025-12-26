@@ -26,16 +26,16 @@
     "ask-sdk-core": "^2.14.0",
     "ask-sdk-model": "^1.86.0",
     "dynamoose": "^4.0.4",
-    "i18next": "^25.6.0",
+    "i18next": "^25.7.3",
     "i18next-sprintf-postprocessor": "^0.2.2",
-    "winston": "^3.18.3"
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "alexa-skill-test-framework": "^1.2.4",
     "cheerio": "^1.0.0-rc.12",
-    "eslint": "^9.37.0",
+    "eslint": "^9.39.2",
     "eslint-config-strongloop": "^2.1.0",
-    "mocha": "^11.7.4",
+    "mocha": "^11.7.5",
     "nyc": "^17.1.0"
   },
   "eslintConfig": {
