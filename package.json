@@ -1,69 +1,69 @@
 {
-  "name": "alexa-awesome-quotations",
-  "version": "3.1.0",
-  "description": "Alexa Skill for awesome quotations",
-  "main": "index.js",
-  "scripts": {
-    "invoke": "aws lambda invoke --function-name awesomeQuotations --payload fileb://test/events/alexa-start-session.json test/out.txt && cat test/out.txt",
-    "test": "c8 --reporter=lcov --reporter=text mocha --timeout 5000",
-    "deploy-lambda": "npm prune --production && npm run lambda-zip && npm run lambda-update && npm install",
-    "lambda-zip": "zip -x 'node_modules/.cache/*' -r index.zip node_modules && cd src && zip ../index.zip *",
-    "lambda-update": "aws lambda update-function-code --function-name awesomeQuotations --zip-file fileb://index.zip",
-    "deploy-skill": "ask deploy --target skill",
-    "deploy-model": "ask deploy --target model"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sgruendel/alexa-awesome-quotations.git"
-  },
-  "author": "Stefan Gründel",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/sgruendel/alexa-awesome-quotations/issues"
-  },
-  "homepage": "https://github.com/sgruendel/alexa-awesome-quotations#readme",
-  "dependencies": {
-    "ask-sdk-core": "^2.14.0",
-    "ask-sdk-model": "^1.86.0",
-    "dynamoose": "^4.2.0",
-    "i18next": "^26.3.6",
-    "i18next-sprintf-postprocessor": "^0.2.2",
-    "winston": "^3.19.0"
-  },
-  "devDependencies": {
-    "alexa-skill-test-framework": "^1.2.4",
-    "c8": "^12.0.0",
-    "cheerio": "^1.0.0-rc.12",
-    "eslint": "^10.7.0",
-    "eslint-config-strongloop": "^2.1.0",
-    "mocha": "^11.7.6"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaVersion": 2017
+    "name": "alexa-awesome-quotations",
+    "version": "3.1.0",
+    "description": "Alexa Skill for awesome quotations",
+    "main": "index.js",
+    "scripts": {
+        "invoke": "aws lambda invoke --function-name awesomeQuotations --payload fileb://test/events/alexa-start-session.json test/out.txt && cat test/out.txt",
+        "test": "c8 --reporter=lcov --reporter=text mocha --timeout 5000",
+        "deploy-lambda": "npm prune --production && npm run lambda-zip && npm run lambda-update && npm install",
+        "lambda-zip": "zip -x 'node_modules/.cache/*' -r index.zip node_modules && cd src && zip ../index.zip *",
+        "lambda-update": "aws lambda update-function-code --function-name awesomeQuotations --zip-file fileb://index.zip",
+        "deploy-skill": "ask deploy --target skill",
+        "deploy-model": "ask deploy --target model"
     },
-    "extends": "strongloop",
-    "env": {
-      "es6": true,
-      "node": true,
-      "mocha": true
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sgruendel/alexa-awesome-quotations.git"
     },
-    "rules": {
-      "indent": [
-        "error",
-        4
-      ],
-      "max-len": [
-        "error",
-        120,
-        4,
-        {
-          "ignoreComments": true,
-          "ignoreUrls": true,
-          "ignoreStrings": true,
-          "ignorePattern": "^\\s*var\\s.+=\\s*(require\\s*\\()|(/)"
+    "author": "Stefan Gründel",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/sgruendel/alexa-awesome-quotations/issues"
+    },
+    "homepage": "https://github.com/sgruendel/alexa-awesome-quotations#readme",
+    "dependencies": {
+        "ask-sdk-core": "^2.14.0",
+        "ask-sdk-model": "^1.86.0",
+        "dynamoose": "^4.2.0",
+        "i18next": "^26.3.6",
+        "i18next-sprintf-postprocessor": "^0.2.2",
+        "winston": "^3.19.0"
+    },
+    "devDependencies": {
+        "alexa-skill-test-framework": "^1.2.4",
+        "c8": "^12.0.0",
+        "cheerio": "^1.0.0-rc.12",
+        "eslint": "^10.7.0",
+        "eslint-config-strongloop": "^2.1.0",
+        "mocha": "^11.7.6"
+    },
+    "eslintConfig": {
+        "parserOptions": {
+            "ecmaVersion": 2017
+        },
+        "extends": "strongloop",
+        "env": {
+            "es6": true,
+            "node": true,
+            "mocha": true
+        },
+        "rules": {
+            "indent": [
+                "error",
+                4
+            ],
+            "max-len": [
+                "error",
+                120,
+                4,
+                {
+                    "ignoreComments": true,
+                    "ignoreUrls": true,
+                    "ignoreStrings": true,
+                    "ignorePattern": "^\\s*var\\s.+=\\s*(require\\s*\\()|(/)"
+                }
+            ]
         }
-      ]
     }
-  }
 }
